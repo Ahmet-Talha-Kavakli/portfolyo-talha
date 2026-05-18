@@ -83,30 +83,35 @@ try {
       return sum / fills.length;
     });
 
+  // Düzene dayanmadan: skills bölümünü viewport altına getirip küçük
+  // adımlarla tarayarak fill oranının ARTTIĞINI doğrula (film uzunluğu /
+  // sayfa düzeni değişse de sağlam).
   await page.evaluate(() => window.scrollTo(0, 0));
   await new Promise((r) => setTimeout(r, 400));
-  // skills bölümünü görünüre getir (film + bio sonrası)
-  const skillsY = await page.evaluate(() => {
+  const skillsAbs = await page.evaluate(() => {
     const lbl = [...document.querySelectorAll("span")].find(
       (s) => s.textContent.trim() === "Software",
     );
-    return lbl
-      ? window.scrollY + lbl.getBoundingClientRect().top - 600
-      : 0;
+    return lbl ? window.scrollY + lbl.getBoundingClientRect().top : 0;
   });
-  await page.evaluate((y) => window.scrollTo(0, y), Math.max(0, skillsY));
-  await new Promise((r) => setTimeout(r, 600));
-  const rLow = await ratio();
-  await page.evaluate((y) => window.scrollTo(0, y + 700), Math.max(0, skillsY));
-  await new Promise((r) => setTimeout(r, 800));
-  const rHigh = await ratio();
-  rLow >= 0 && rHigh > rLow + 0.05
+  const samples = [];
+  // skills label viewport'un ~95% altından ~10%'una gelene dek tara
+  for (let off = -0.95; off <= -0.1; off += 0.12) {
+    const y = Math.max(0, Math.round(skillsAbs + off * 800));
+    await page.evaluate((yy) => window.scrollTo(0, yy), y);
+    await new Promise((r) => setTimeout(r, 350));
+    samples.push(await ratio());
+  }
+  const lo = Math.min(...samples);
+  const hi = Math.max(...samples);
+  const firstIdx = samples.findIndex((v) => v >= 0);
+  lo >= 0 &&
+  hi - lo > 0.15 &&
+  samples[samples.length - 1] >= samples[firstIdx]
     ? console.log(
-        `OK 3    yetenek hattı doluyor (${rLow.toFixed(2)} → ${rHigh.toFixed(
-          2,
-        )})`,
+        `OK 3    yetenek hattı doluyor (${lo.toFixed(2)} → ${hi.toFixed(2)})`,
       )
-    : fail(`skill fill artmadı: low=${rLow} high=${rHigh}`);
+    : fail(`skill fill artmadı: ${samples.map((v) => v.toFixed(2)).join(",")}`);
 
   const real = errors.filter((e) => !/Failed to load resource.*404/.test(e));
   real.length === 0

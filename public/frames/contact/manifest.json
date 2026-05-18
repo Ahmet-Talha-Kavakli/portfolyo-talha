@@ -1,0 +1,10 @@
+{
+  "placeholder": false,
+  "count": 110,
+  "ext": "jpg",
+  "pattern": "frame-%04d",
+  "width": 1280,
+  "height": 0,
+  "video": "/frames/contact/clip.mp4",
+  "poster": "/frames/contact/poster.jpg"
+}

@@ -16,17 +16,20 @@ export const PROJECTS_MARKERS: Marker[] = [
   { name: "built", at: 0.84 }, // ızgara tamamlanır, beyaza açılır — "Built."
 ];
 
-/** About filmi — beyaza yakın başlar → kısa yüz → sabit portre (spec §6). */
+/** About filmi — kullanıcı videosu: MacBook terminal kod → kod taşar →
+ *  koddan insan figürü → patlama → parçacıklar. "Talha", kod-insan tam
+ *  oluştuğunda görünür. */
 export const ABOUT_MARKERS: Marker[] = [
-  { name: "open", at: 0 }, // beyaza yakın açılış
-  { name: "face", at: 0.45 }, // kısa yüz karesi
-  { name: "rest", at: 0.8 }, // sabit aydınlık portre ("insana iniş")
+  { name: "open", at: 0 }, // MacBook terminalde kod
+  { name: "face", at: 0.4 }, // kod taşar, figür oluşmaya başlar
+  { name: "rest", at: 0.74 }, // koddan insan tam oluştu — "Talha"
 ];
 
-/** Contact filmi — iplik ortaya gelir → yanıp sönen imleç; karanlık kalır. */
+/** Contact filmi — kullanıcı videosu: iki ışık noktası karanlıkta
+ *  birbirine yaklaşıp bağlanır; karanlık kalır (kapanış tonu). */
 export const CONTACT_MARKERS: Marker[] = [
-  { name: "line", at: 0 }, // iplik ortaya gelir
-  { name: "cursor", at: 0.65 }, // yanıp sönen imleç — "hat açık"
+  { name: "line", at: 0 }, // iki nokta ayrı, birbirine süzülüyor
+  { name: "cursor", at: 0.6 }, // bağlantı kuruldu — "let's build something"
 ];
 
 /**

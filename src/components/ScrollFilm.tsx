@@ -322,6 +322,13 @@ export default function ScrollFilm({
         scrub: true,
         onUpdate: (self) => render(self.progress),
       });
+      // Pin async (frames preload sonrası) kuruluyor → pinSpacing DOM'a
+      // eklenince sayfa düzeni değişir. refresh'i SENKRON çağırmak erken
+      // (spacer henüz layout'a girmemiş); bir-iki frame ertele ki diğer
+      // ScrollTrigger'lar (About yetenek hattı) DOĞRU konumla hesaplansın.
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => ScrollTrigger.refresh()),
+      );
     },
     { dependencies: [mode, ready, scrollPerFrame], scope: wrapRef },
   );
