@@ -13,7 +13,12 @@ export default function Doors() {
   return (
     <nav className={styles.doors} aria-label="Sections">
       {DOORS.map((d) => (
-        <Link key={d.href} href={d.href} className={styles.door}>
+        <Link
+          key={d.href}
+          href={d.href}
+          className={styles.door}
+          prefetch={false}
+        >
           <span>{d.label}</span>
           <span className={styles.doorTag}>{d.tag}</span>
           <SignalThread

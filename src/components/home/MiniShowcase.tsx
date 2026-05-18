@@ -8,7 +8,7 @@ export default function MiniShowcase() {
   if (!p) return null;
   return (
     <section className={styles.showcase}>
-      <Link href="/projects" className={styles.showcaseLink}>
+      <Link href="/projects" className={styles.showcaseLink} prefetch={false}>
         {/* Placeholder görsel — gerçek fal.ai/üretim görseli sonra
             content/site.ts'ten gelir (next/image değil: placeholder SVG). */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
