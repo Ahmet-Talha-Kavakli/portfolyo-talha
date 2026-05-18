@@ -118,11 +118,11 @@ try {
     ? console.log(`OK 3    canlı saat: ${clock}`)
     : fail(`saat: "${clock}"`);
 
-  // (4) SSR SEO
+  // (4) SSR SEO — sr-only "Contact" başlığı + gerçek direkt link(ler).
+  // (Sahte sosyal linkler kaldırıldı; en az gerçek Email satırı olmalı.)
   /Contact/.test(html) &&
   html.includes("Email") &&
-  html.includes("GitHub") &&
-  html.includes("LinkedIn")
+  /mailto:/.test(html)
     ? console.log("OK 4    SSR: başlık + direkt linkler")
     : fail("SSR seo eksik");
 

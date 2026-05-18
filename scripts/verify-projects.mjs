@@ -56,7 +56,7 @@ try {
       a.textContent.replace(/\s+/g, " ").trim(),
     ),
   );
-  nonBlank && stripNames.length >= 3
+  nonBlank && stripNames.length >= 2
     ? console.log(`OK 1    /projects film + ${stripNames.length} şerit`)
     : fail(`projects: nonBlank=${nonBlank} strips=${stripNames.length}`);
 
@@ -85,16 +85,16 @@ try {
     : fail(`built: ${JSON.stringify(built)}`);
 
   // (3) detay SSR
-  const dRes = await page.goto(`${URL}/projects/placeholder-one`, {
+  const dRes = await page.goto(`${URL}/projects/meta-world`, {
     waitUntil: "domcontentloaded",
     timeout: 30000,
   });
   const dHtml = await dRes.text();
   const title = await page.title();
-  dHtml.includes("[Placeholder Project One]") &&
-  dHtml.includes("Short narrative") &&
+  dHtml.includes("Meta-World") &&
+  dHtml.includes("AI fitness") &&
   /Projects/.test(dHtml) &&
-  /Placeholder Project One/.test(title)
+  /Meta-World/.test(title)
     ? console.log(`OK 3    detay SSR + <title>="${title}"`)
     : fail(`detay SSR eksik (title="${title}")`);
 

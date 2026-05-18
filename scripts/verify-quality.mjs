@@ -75,7 +75,7 @@ const fail = (m) => {
 const ROUTES = [
   "/",
   "/projects",
-  "/projects/placeholder-one",
+  "/projects/meta-world",
   "/about",
   "/contact",
 ];
