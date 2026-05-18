@@ -31,6 +31,7 @@ export default function AboutPage() {
       </ScrollFilm>
 
       <div className={styles.after}>
+        <h1 className="sr-only">About {site.name}</h1>
         <section className={styles.grid}>
           <div className={styles.bio}>
             {site.about.map((para, i) => (

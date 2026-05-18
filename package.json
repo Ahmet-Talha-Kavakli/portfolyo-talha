@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "gen:frames": "node scripts/frames.mjs --placeholder --all",
+    "predev": "node scripts/frames.mjs --placeholder --all",
     "dev": "next dev",
+    "prebuild": "node scripts/frames.mjs --placeholder --all",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

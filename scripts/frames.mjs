@@ -14,7 +14,7 @@
  * Çıktı: public/frames/<page>/frame-0001.bmp ... + manifest.json
  * (public/frames/ git'e GİRMEZ — .gitignore.)
  */
-import { mkdir, writeFile, rm } from "node:fs/promises";
+import { mkdir, writeFile, rm, readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -64,17 +64,32 @@ function solidBmp(w, h, c) {
   return buf;
 }
 
-async function placeholder() {
-  const page = arg("page", "home");
-  const count = parseInt(arg("count", "60"), 10);
-  const w = parseInt(arg("w", "480"), 10);
-  const h = parseInt(arg("h", "270"), 10);
+// Sayfa başına placeholder kare sayısı (marker'larla uyumlu).
+const PAGES = { home: 60, projects: 30, about: 24, contact: 16 };
 
-  // Renk anlatısı (spec §4/§5): karanlık -> aydınlık.
+async function placeholderFor(page, count) {
+  // Kareler düz renk olduğundan minik çözünürlük yeter (cover-scale ile
+  // tam ekran çizilince görsel AYNI). Perf: ~7KB/kare (bütçe içinde).
+  const w = parseInt(arg("w", "64"), 10);
+  const h = parseInt(arg("h", "36"), 10);
   const dark = hex("#070b16");
   const light = hex("#f7f6f2");
-
   const dir = join(ROOT, "public", "frames", page);
+
+  // Gerçek asset koruması (Faz 7): manifest placeholder:false ise dokunma.
+  const mpath = join(dir, "manifest.json");
+  if (existsSync(mpath)) {
+    try {
+      const m = JSON.parse(await readFile(mpath, "utf8"));
+      if (m && m.placeholder === false) {
+        console.log(`skip: ${page} gerçek asset (placeholder:false) — korunur`);
+        return;
+      }
+    } catch {
+      /* bozuk manifest → yeniden üret */
+    }
+  }
+
   if (existsSync(dir)) await rm(dir, { recursive: true, force: true });
   await mkdir(dir, { recursive: true });
 
@@ -104,6 +119,18 @@ async function placeholder() {
   console.log(
     `placeholder: ${count} kare -> public/frames/${page}/ (${w}x${h} bmp)`,
   );
+}
+
+async function placeholder() {
+  if (arg("all", false)) {
+    for (const [page, count] of Object.entries(PAGES)) {
+      await placeholderFor(page, count);
+    }
+    return;
+  }
+  const page = arg("page", "home");
+  const count = parseInt(arg("count", String(PAGES[page] ?? 60)), 10);
+  await placeholderFor(page, count);
 }
 
 async function realPipeline() {

@@ -33,6 +33,7 @@ export default function ProjectsPage() {
       </ScrollFilm>
 
       <div className={styles.after}>
+        <h1 className="sr-only">Projects — selected work by {site.name}</h1>
         <section className={styles.strips}>
           {site.projects.map((p) => (
             <ProjectStrip key={p.slug} project={p} />
