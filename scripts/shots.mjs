@@ -121,37 +121,21 @@ try {
     await render(laptop(deep, false), "replara-4");
   }
   if (which === "meta-world" || which === "all") {
-    await render(
-      phoneBrand("Meta-World", "AI fitness coach<br>voice · real-time 3D", [
-        "AI",
-        "3D",
-        "Mobile",
-      ]),
-      "meta-world-1",
-    );
-    await render(
-      phoneBrand(
-        "Voice coach",
-        "A trainer that talks back —<br>real-time, adaptive",
-        ["ElevenLabs", "AI"],
-      ),
-      "meta-world-2",
-    );
-    await render(
-      phoneBrand("Live 3D", "Real-time 3D characters<br>react as you move", [
-        "Three.js",
-        "WebGL",
-      ]),
-      "meta-world-3",
-    );
-    await render(
-      laptopBrand(
-        "One platform",
-        "Mobile · backend · dashboard · web — built end to end",
-        ["Monorepo", "TypeScript", "Node"],
-      ),
-      "meta-world-4",
-    );
+    // Gerçek @fitai/site (yerel, localhost:3001) — Replara gibi gerçek UI.
+    const mw = process.env.MW_URL || "http://localhost:3001";
+    const desk = { width: 1440, height: 900 };
+    const hero = await capture(mw, desk, 0);
+    const deep = await capture(mw, desk, 1100);
+    const deep2 = await capture(mw, desk, 2200);
+    const mob = await capture(mw, {
+      width: 414,
+      height: 896,
+      isMobile: true,
+    });
+    await render(laptop(hero, false), "meta-world-1");
+    await render(laptop(deep, true), "meta-world-2");
+    await render(phoneImg(mob), "meta-world-3");
+    await render(laptop(deep2, false), "meta-world-4");
   }
 } finally {
   await b.close();
