@@ -193,8 +193,10 @@ export default function ScrollFilm({
   useEffect(() => {
     let alive = true;
     (async () => {
+      // Manifest placeholder→gerçek değişebilir; ASLA force-cache
+      // (eski bmp manifest'i takılı kalır → .bmp 404). Hep taze (192B).
       const res = await fetch(`${framesDir}/manifest.json`, {
-        cache: "force-cache",
+        cache: "no-store",
       });
       const m: Manifest = await res.json();
       if (!alive) return;
