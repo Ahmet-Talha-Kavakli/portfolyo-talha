@@ -1,0 +1,190 @@
+/* Contact — karanlık kalır (kapanış tonu, spec §6). */
+
+.cursor {
+  color: #fff;
+}
+.cursor span {
+  font-size: clamp(1rem, 2.4vw, 1.5rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.after {
+  background: var(--bg-dark);
+  color: #fff;
+  position: relative;
+  min-height: 100vh;
+  padding: 16vh 8vw 18vh;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(2rem, 8vw, 7rem);
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 8vh;
+  }
+}
+
+/* --- Konuşma-formu (kutu değil, alttan çizgili satırlar) --- */
+.form {
+  display: grid;
+  gap: clamp(1.5rem, 5vh, 3.5rem);
+  max-width: 30ch;
+}
+.field {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.5s var(--ease-cine),
+    transform 0.5s var(--ease-cine);
+  pointer-events: none;
+}
+.fieldShown {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.q {
+  display: block;
+  font-size: clamp(1.5rem, 4vw, 2.8rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.6rem;
+}
+.input {
+  width: 100%;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-family: inherit;
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  padding: 0.5rem 0;
+  outline: none;
+  transition: border-color 0.3s var(--ease-cine);
+}
+.input:focus {
+  border-color: var(--signal);
+}
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+textarea.input {
+  resize: none;
+  min-height: 3.5rem;
+}
+
+.send {
+  justify-self: start;
+  background: none;
+  border: 0;
+  color: #fff;
+  font-family: inherit;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.5s var(--ease-cine),
+    transform 0.5s var(--ease-cine),
+    color 0.3s;
+}
+.sendShown {
+  opacity: 1;
+  transform: translateY(0);
+}
+.send:hover:not(:disabled) {
+  color: var(--signal);
+}
+.send:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.result {
+  font-size: clamp(1.3rem, 3.5vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.error {
+  color: #ff7a7a;
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  font-weight: 500;
+}
+.sendThread {
+  height: 10px;
+  margin-top: 1.5rem;
+}
+
+/* görsel gizli honeypot */
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* --- Direkt linkler --- */
+.links {
+  display: grid;
+  gap: clamp(0.5rem, 2vh, 1.2rem);
+}
+.linksHead {
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 1.5rem;
+}
+.link {
+  position: relative;
+  display: block;
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: #fff;
+  padding: clamp(0.5rem, 1.5vh, 1rem) 0;
+  transition: color 0.3s var(--ease-cine);
+}
+.link:hover {
+  color: var(--signal);
+}
+.linkThread {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 8px;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-cine);
+}
+.link:hover .linkThread {
+  opacity: 1;
+}
+
+/* --- Köşe: şehir + canlı saat --- */
+.clock {
+  position: absolute;
+  right: 8vw;
+  bottom: 6vh;
+  text-align: right;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+.clock strong {
+  display: block;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  font-variant-numeric: tabular-nums;
+}

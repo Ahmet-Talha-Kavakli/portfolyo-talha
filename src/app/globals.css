@@ -67,6 +67,19 @@ a {
   text-decoration: none;
 }
 
+/* Görsel gizli ama ekran okuyucu/SEO için DOM'da (canvas overlay başlıkları). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Erişilebilirlik: hareketi azalt (spec §10.4). Film/animasyonlar bu
  * modda iskelete iner; bileşenler ayrıca JS tarafında da kontrol eder. */
 @media (prefers-reduced-motion: reduce) {

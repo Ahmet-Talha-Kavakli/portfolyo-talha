@@ -23,6 +23,12 @@ export const ABOUT_MARKERS: Marker[] = [
   { name: "rest", at: 0.8 }, // sabit aydınlık portre ("insana iniş")
 ];
 
+/** Contact filmi — iplik ortaya gelir → yanıp sönen imleç; karanlık kalır. */
+export const CONTACT_MARKERS: Marker[] = [
+  { name: "line", at: 0 }, // iplik ortaya gelir
+  { name: "cursor", at: 0.65 }, // yanıp sönen imleç — "hat açık"
+];
+
 /** Home filmi — 6 sahne (spec §5). */
 export const HOME_MARKERS: Marker[] = [
   { name: "face", at: 0 }, // S1 açılış: nokta → yüz
