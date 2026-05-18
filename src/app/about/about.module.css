@@ -1,0 +1,97 @@
+/* About — mini film + anlatı + yetenek hattı + stack. */
+
+.rest {
+  color: var(--ink);
+}
+.rest span {
+  font-size: clamp(1rem, 2.4vw, 1.5rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.after {
+  background: var(--bg-light);
+  color: var(--ink);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: clamp(2rem, 8vw, 8rem);
+  padding: 14vh 8vw 8vh;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 6vh;
+  }
+}
+
+.bio {
+  display: grid;
+  gap: clamp(1.2rem, 3vh, 2.4rem);
+}
+.bio p {
+  font-size: clamp(1.4rem, 3.4vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.18;
+}
+.bio p:not(:first-child) {
+  color: var(--ink-soft);
+}
+
+/* Dikey yetenek hattı — scroll'la dolan ince çizgi (yüzde değil ritim). */
+.skills {
+  display: grid;
+  gap: clamp(1.4rem, 4vh, 2.6rem);
+  /* sticky DEĞİL: ScrollTrigger scrub ile çakışır (fill anında dolardı). */
+}
+.skillRow {
+  display: grid;
+  gap: 0.7rem;
+}
+.skillLabel {
+  font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.track {
+  height: 1px;
+  width: 100%;
+  background: var(--line);
+  position: relative;
+  overflow: hidden;
+}
+.fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  background: var(--signal);
+}
+
+.stack {
+  padding: 0 8vw 14vh;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.9rem;
+  border-top: 1px solid var(--line);
+  padding-top: 6vh;
+}
+.stackItem {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.stackItem::after {
+  content: "·";
+  margin-left: 0.9rem;
+  color: var(--line);
+}
+.stackItem:last-child::after {
+  content: "";
+}

@@ -16,6 +16,13 @@ export const PROJECTS_MARKERS: Marker[] = [
   { name: "built", at: 0.65 }, // beyaza açılır — "Built."
 ];
 
+/** About filmi — beyaza yakın başlar → kısa yüz → sabit portre (spec §6). */
+export const ABOUT_MARKERS: Marker[] = [
+  { name: "open", at: 0 }, // beyaza yakın açılış
+  { name: "face", at: 0.45 }, // kısa yüz karesi
+  { name: "rest", at: 0.8 }, // sabit aydınlık portre ("insana iniş")
+];
+
 /** Home filmi — 6 sahne (spec §5). */
 export const HOME_MARKERS: Marker[] = [
   { name: "face", at: 0 }, // S1 açılış: nokta → yüz
