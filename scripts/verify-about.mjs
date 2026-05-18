@@ -57,7 +57,8 @@ try {
     : fail("about film blank");
 
   // (2) SSR içerik
-  const hasBio = /builder/i.test(html) && /end to end/i.test(html);
+  const hasBio =
+    /product engineer/i.test(html) && /end to end/i.test(html);
   const hasSkills = ["Software", "Backend", "Frontend", "3D", "AI"].every(
     (s) => html.includes(s),
   );
