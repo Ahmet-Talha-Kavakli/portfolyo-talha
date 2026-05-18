@@ -23,10 +23,12 @@ export type Project = {
   tech: string[];
   /** Liste/şerit ana görseli (public/ yolu). */
   cover: string;
-  /** Detay sayfası büyük görselleri. */
+  /** Detay sayfası büyük görselleri (farklı cihaz/açı mockup seti). */
   gallery: string[];
-  /** Detay sayfası kısa anlatı (İngilizce). */
-  body: string;
+  /** Detay sayfası anlatı — çok paragraf (vaka çalışması). */
+  body: string[];
+  /** Kısa künye satırları (rol · yıl · durum). */
+  meta: string[];
   /** Opsiyonel dış link (canlı/repo). */
   link?: string;
 };
@@ -91,9 +93,20 @@ export const site: SiteContent = {
         "AI",
         "ElevenLabs",
       ],
-      cover: "/projects/meta-world.png",
-      gallery: ["/projects/meta-world.png"],
-      body: "Meta-World is an AI fitness and body-coaching platform built as a complete monorepo — mobile app, backend, dashboard and marketing web. It pairs a voice-driven AI coach with real-time 3D characters and an adaptive nutrition system, designed to feel less like an app and more like a trainer who actually knows you. Architecture, product, 3D and AI — all built and shipped by one person.",
+      cover: "/projects/meta-world-1.png",
+      gallery: [
+        "/projects/meta-world-1.png",
+        "/projects/meta-world-2.png",
+        "/projects/meta-world-3.png",
+        "/projects/meta-world-4.png",
+      ],
+      meta: ["Solo — design & engineering", "2024–2025", "In development"],
+      body: [
+        "Meta-World is an AI fitness and body-coaching platform built as a complete monorepo — mobile app, backend, dashboard and marketing web. The goal was a product that feels less like an app and more like a trainer who actually knows you.",
+        "At its core is a voice-driven AI coach: it talks back in real time, adapts to how the session is going, and is paired with real-time 3D characters that react as you move. An adaptive nutrition system closes the loop between training and eating.",
+        "I designed and engineered the whole thing alone — the backend architecture and APIs, the React Native app, the dashboard, the 3D layer and the AI/voice integration. Every layer was built to hold up under real users, not just a demo.",
+        "It's the clearest example of how I work: take an ambitious, multi-disciplinary idea and carry it end to end, without handing any layer to someone else.",
+      ],
     },
     {
       slug: "replara",
@@ -102,9 +115,19 @@ export const site: SiteContent = {
       tagline:
         "AI-powered reputation management — on-brand review responses across every channel, in production.",
       tech: ["AI", "Next.js", "TypeScript", "Node", "PostgreSQL"],
-      cover: "/projects/replara.png",
-      gallery: ["/projects/replara.png"],
-      body: "Replara is an AI-driven reputation platform that turns customer reviews into an advantage. It centralizes Google, Trustpilot, app stores and social into a single dashboard, then uses context-aware AI to draft responses that hold each brand's voice — with sentiment analysis, crisis detection and competitor intelligence. Live in production at replara.com.",
+      cover: "/projects/replara-1.png",
+      gallery: [
+        "/projects/replara-1.png",
+        "/projects/replara-2.png",
+        "/projects/replara-3.png",
+        "/projects/replara-4.png",
+      ],
+      meta: ["Product & engineering", "2025", "Live in production"],
+      body: [
+        "Replara is an AI-driven reputation platform that turns customer reviews into an advantage instead of a chore. It centralizes Google, Trustpilot, app stores and social into a single dashboard.",
+        "Context-aware AI drafts responses that hold each brand's voice — backed by sentiment analysis, crisis detection and competitor intelligence, so teams can move fast without sounding like a bot.",
+        "The product spans a marketing site, an authenticated dashboard and the AI response pipeline behind it — fully responsive, from desktop control room to phone. It is live and in production at replara.com.",
+      ],
       link: "https://replara.com",
     },
   ],

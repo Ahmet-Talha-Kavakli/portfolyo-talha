@@ -31,6 +31,9 @@ export default async function ProjectDetail({ params }: Props) {
   const p = site.projects.find((x) => x.slug === slug);
   if (!p) notFound();
 
+  // Anlatı paragraflarıyla galeri görsellerini dönüşümlü ör (vaka çalışması).
+  const shots = p.gallery;
+
   return (
     <main>
       <article className={styles.detail}>
@@ -44,40 +47,78 @@ export default async function ProjectDetail({ params }: Props) {
         <Link href="/projects" className={styles.back}>
           ← Projects
         </Link>
-        <h1 className={styles.detailName}>{p.name}</h1>
-        <div className={styles.detailMeta}>
-          {p.tech.map((t) => (
-            <span key={t} className={styles.tag}>
-              {t}
-            </span>
-          ))}
-        </div>
 
-        <div className={styles.gallery}>
-          {p.gallery.map((src, i) => (
+        {/* Künye / hero */}
+        <header className={styles.caseHead}>
+          <div className={styles.caseIndex}>{p.index}</div>
+          <h1 className={styles.detailName}>{p.name}</h1>
+          <p className={styles.caseTagline}>{p.tagline}</p>
+          <dl className={styles.caseMeta}>
+            {p.meta.map((m) => (
+              <dd key={m}>{m}</dd>
+            ))}
+          </dl>
+          <div className={styles.detailMeta}>
+            {p.tech.map((t) => (
+              <span key={t} className={styles.tag}>
+                {t}
+              </span>
+            ))}
+          </div>
+          {p.link && (
+            <a
+              href={p.link}
+              className={styles.detailLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Visit live ↗
+            </a>
+          )}
+        </header>
+
+        {/* Lead görsel */}
+        {shots[0] && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={shots[0]}
+            alt={`${p.name} — overview`}
+            className={styles.leadImg}
+          />
+        )}
+
+        {/* Anlatı paragrafları, aralarına tam-genişlik galeri görselleri */}
+        <div className={styles.caseBody}>
+          {p.body.map((para, i) => (
+            <div key={i} className={styles.caseBlock}>
+              <p>{para}</p>
+              {shots[i + 1] && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={shots[i + 1]}
+                  alt={`${p.name} — ${i + 2}`}
+                  className={styles.galleryImg}
+                  loading="lazy"
+                />
+              )}
+            </div>
+          ))}
+          {/* Anlatıdan fazla görsel kaldıysa sona ekle */}
+          {shots.slice(p.body.length + 1).map((src, i) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              key={i}
+              key={`extra-${i}`}
               src={src}
-              alt={`${p.name} — ${i + 1}`}
+              alt={`${p.name} — ${p.body.length + 2 + i}`}
               className={styles.galleryImg}
               loading="lazy"
             />
           ))}
         </div>
 
-        <p className={styles.detailBody}>{p.body}</p>
-
-        {p.link && (
-          <a
-            href={p.link}
-            className={styles.detailLink}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Visit ↗
-          </a>
-        )}
+        <Link href="/projects" className={styles.back}>
+          ← All projects
+        </Link>
       </article>
       <Footer />
     </main>
