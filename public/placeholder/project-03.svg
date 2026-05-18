@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <rect width="1600" height="900" fill="#eceae3"/>
+  <g stroke="#d7d4c9" stroke-width="1">
+    <line x1="0" y1="225" x2="1600" y2="225"/><line x1="0" y1="450" x2="1600" y2="450"/><line x1="0" y1="675" x2="1600" y2="675"/>
+    <line x1="400" y1="0" x2="400" y2="900"/><line x1="800" y1="0" x2="800" y2="900"/><line x1="1200" y1="0" x2="1200" y2="900"/>
+  </g>
+  <path d="M120 720 C 420 360, 760 540, 1480 200" fill="none" stroke="#2f6bff" stroke-width="3" opacity="0.55"/>
+  <text x="120" y="200" font-family="Sora, sans-serif" font-size="120" font-weight="700" fill="#14161c" letter-spacing="-4">03</text>
+</svg>

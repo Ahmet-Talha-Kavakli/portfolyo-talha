@@ -1,0 +1,41 @@
+/* Footer — gün biter gibi tekrar kararır (döngü hissi, spec §5). */
+.footer {
+  background: var(--bg-dark);
+  color: #fff;
+  padding: 10vh 8vw 7vh;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.brand {
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+.meta {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-top: 0.5rem;
+}
+.socials {
+  display: flex;
+  gap: 1.6rem;
+  align-items: center;
+}
+.icon {
+  display: inline-flex;
+  color: #fff;
+  opacity: 0.7;
+  transition: opacity 0.3s var(--ease-cine);
+}
+.icon:hover {
+  opacity: 1;
+}
+.icon svg {
+  width: 22px;
+  height: 22px;
+}

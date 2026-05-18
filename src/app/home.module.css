@@ -1,0 +1,141 @@
+/* Home — sahne yerleşim/tipografi + film sonrası içerik. */
+
+/* --- Sahne metinleri (SceneText className override) --- */
+.dim {
+  align-items: end;
+  padding-bottom: 12vh;
+  font-size: clamp(0.7rem, 1.3vw, 0.95rem);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.huge {
+  align-items: center;
+  justify-items: start;
+  padding-left: 7vw;
+  text-align: left;
+}
+.huge span {
+  font-size: clamp(4rem, 19vw, 18rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  opacity: 0.5;
+}
+
+/* S5 "sistem açıldı" — aydınlık zemin, koyu metin (spec §5). */
+.name {
+  color: var(--ink);
+}
+.name h1 {
+  font-size: clamp(3rem, 12vw, 11rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+}
+.name p {
+  margin-top: 0.6rem;
+  font-size: clamp(0.95rem, 2.1vw, 1.4rem);
+  color: var(--ink-soft);
+  letter-spacing: 0.01em;
+}
+
+/* S6 "keep scrolling" — aydınlık zeminde koyu, sönük. */
+.onLight {
+  color: var(--ink);
+}
+
+/* --- Film sonrası aydınlık bölüm --- */
+.after {
+  background: var(--bg-light);
+  color: var(--ink);
+}
+
+.identity {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  padding: 12vh 8vw;
+}
+.identityInner {
+  max-width: 18ch;
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.doors {
+  padding: 6vh 8vw 12vh;
+  display: grid;
+  gap: clamp(1rem, 3vh, 2.5rem);
+}
+.door {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: clamp(1rem, 3vh, 2rem) 0;
+  border-top: 1px solid var(--line);
+  font-size: clamp(2rem, 8vw, 6rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  transition: opacity 0.4s var(--ease-cine);
+}
+.door:hover {
+  opacity: 0.55;
+}
+.doorTag {
+  font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+.doorThread {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 8px;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-cine);
+}
+.door:hover .doorThread {
+  opacity: 1;
+}
+
+.showcase {
+  padding: 8vh 8vw 14vh;
+}
+.showcaseLink {
+  display: block;
+  position: relative;
+}
+.showcaseImg {
+  width: 100%;
+  height: clamp(40vh, 55vw, 70vh);
+  object-fit: cover;
+  display: block;
+  background: var(--line);
+}
+.showcaseMeta {
+  margin-top: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.5rem;
+}
+.showcaseName {
+  font-size: clamp(1.3rem, 4vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.showcaseGo {
+  font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
