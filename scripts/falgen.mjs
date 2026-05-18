@@ -59,20 +59,12 @@ if (!FAL_KEY) {
   process.exit(2);
 }
 
-const imagePath = arg("image", null);
-if (!imagePath || imagePath === true) {
-  console.error(
-    "Kullanım: node scripts/falgen.mjs --image _source-assets/<foto>",
-  );
-  process.exit(2);
-}
-const absImage = join(ROOT, imagePath);
-if (!existsSync(absImage)) {
-  console.error(`Fotoğraf yok: ${absImage}`);
-  process.exit(2);
-}
-
-const MODEL = String(
+// Yüzsüz: foto gerekmez. Sahne 1 text-to-video; sonrakiler önceki klibin
+// son karesinden image-to-video (tek akışkan film).
+const T2V_MODEL = String(
+  arg("t2v-model", "fal-ai/kling-video/v1.6/standard/text-to-video"),
+);
+const I2V_MODEL = String(
   arg("model", "fal-ai/kling-video/v1.6/standard/image-to-video"),
 );
 const FAL = "https://queue.fal.run";
@@ -93,37 +85,43 @@ async function dataUri(p) {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-/** fal queue: submit → poll → result.video.url */
+/** fal queue: submit → poll → result.video.url
+ *  imageUri null → text-to-video; varsa → image-to-video (zincir). */
 async function genClip(prompt, imageUri) {
-  const sub = await fetch(`${FAL}/${MODEL}`, {
+  const model = imageUri ? I2V_MODEL : T2V_MODEL;
+  const body = imageUri ? { prompt, image_url: imageUri } : { prompt };
+  const sub = await fetch(`${FAL}/${model}`, {
     method: "POST",
     headers,
-    body: JSON.stringify({ prompt, image_url: imageUri }),
+    body: JSON.stringify(body),
   });
   if (!sub.ok) {
     throw new Error(
       `submit ${sub.status}: ${(await sub.text()).slice(0, 400)}`,
     );
   }
-  const { request_id } = await sub.json();
-  if (!request_id) throw new Error("request_id yok (model şeması farklı?)");
+  const subJson = await sub.json();
+  // fal, doğru poll/sonuç URL'lerini DÖNDÜRÜR — kendimiz kurmuyoruz
+  // (status/result yolu kısa namespace: .../fal-ai/kling-video/requests/<id>).
+  const statusUrl = subJson.status_url;
+  const responseUrl = subJson.response_url;
+  if (!statusUrl || !responseUrl)
+    throw new Error(
+      `status/response_url yok. Yanıt: ${JSON.stringify(subJson).slice(0, 400)}`,
+    );
 
   // poll
   for (let i = 0; i < 150; i++) {
     await sleep(4000);
-    const st = await fetch(
-      `${FAL}/${MODEL}/requests/${request_id}/status`,
-      { headers },
-    );
+    const st = await fetch(statusUrl, { headers });
+    if (!st.ok) continue;
     const sj = await st.json();
     if (sj.status === "COMPLETED") break;
     if (sj.status === "FAILED" || sj.status === "ERROR")
       throw new Error(`fal FAILED: ${JSON.stringify(sj).slice(0, 400)}`);
     process.stdout.write(".");
   }
-  const res = await fetch(`${FAL}/${MODEL}/requests/${request_id}`, {
-    headers,
-  });
+  const res = await fetch(responseUrl, { headers });
   const rj = await res.json();
   // Model şemaları değişir — yaygın alanları dene.
   const url =
@@ -157,18 +155,33 @@ function lastFrame(mp4, outPng) {
 
 async function main() {
   await mkdir(OUT, { recursive: true });
-  console.log(`Model: ${MODEL}`);
-  let chainImage = await dataUri(absImage);
+  console.log(`T2V: ${T2V_MODEL}\nI2V: ${I2V_MODEL}`);
+  let chainImage = null; // sahne 1 = text-to-video (foto yok)
   const produced = [];
 
-  for (const scene of HOME_SCENES) {
-    console.log(`\n▶ ${scene.id}: üretiliyor...`);
-    const url = await genClip(scene.prompt, chainImage);
-    const dest = join(OUT, `home-${scene.id}.mp4`);
-    await download(url, dest);
-    produced.push(dest);
-    console.log(`  ✓ ${dest}`);
+  const only = arg("only", null);
+  const scenes =
+    only && only !== true
+      ? HOME_SCENES.filter((s) => s.id === only)
+      : HOME_SCENES;
+  if (scenes.length === 0) {
+    console.error(`Sahne bulunamadı: ${only}`);
+    process.exit(2);
+  }
 
+  const resume = !!arg("resume", false);
+  for (const scene of scenes) {
+    const dest = join(OUT, `home-${scene.id}.mp4`);
+    if (resume && existsSync(dest)) {
+      console.log(`\n↷ ${scene.id}: zaten var, atlanıyor (zincir korunur)`);
+    } else {
+      console.log(`\n▶ ${scene.id}: üretiliyor...`);
+      const url = await genClip(scene.prompt, chainImage);
+      await download(url, dest);
+      console.log(`  ✓ ${dest}`);
+    }
+    produced.push(dest);
+    // Sonraki sahnenin girişi: bu klibin son karesi (akışkan geçiş).
     const lf = join(OUT, `_last-${scene.id}.png`);
     if (lastFrame(dest, lf)) chainImage = await dataUri(lf);
   }

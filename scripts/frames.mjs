@@ -172,7 +172,7 @@ function probeDuration(src) {
 
 async function frameSizes(dir) {
   const files = (await readdir(dir))
-    .filter((f) => /^frame-\d+\.webp$/.test(f))
+    .filter((f) => /^frame-\d+\.jpg$/.test(f))
     .sort();
   const sizes = [];
   for (const f of files) sizes.push((await stat(join(dir, f))).size);
@@ -186,7 +186,7 @@ async function buildReal() {
     console.error(
       "Kullanım: node scripts/frames.mjs --build --page home " +
         "--inputs clip1.mp4[,clip2.mp4] [--count 240] [--width 1600] " +
-        "[--quality 72]",
+        "[--quality 3]",
     );
     process.exit(2);
   }
@@ -208,7 +208,10 @@ async function buildReal() {
   }
 
   const target = parseInt(arg("count", String(page === "home" ? 240 : 120)), 10);
-  let quality = parseInt(arg("quality", "72"), 10);
+  // JPEG mjpeg kalitesi: -q:v 2 (en iyi/büyük) … 31 (en kötü/küçük).
+  // (Homebrew ffmpeg'inde libwebp yok → WebP yerine yerleşik mjpeg;
+  //  asıl hedef = bütçe ≤120KB/kare, JPEG ile de tutuyor — spec §10.2.)
+  let qv = parseInt(arg("quality", "3"), 10);
   const width = parseInt(arg("width", "1600"), 10);
   const dir = join(ROOT, "public", "frames", page);
   if (existsSync(dir)) await rm(dir, { recursive: true, force: true });
@@ -251,7 +254,7 @@ async function buildReal() {
   let result = null;
   for (let attempt = 0; attempt < 4; attempt++) {
     for (const f of await readdir(dir)) {
-      if (/^frame-\d+\.webp$/.test(f)) await rm(join(dir, f));
+      if (/^frame-\d+\.jpg$/.test(f)) await rm(join(dir, f));
     }
     const e = ff("ffmpeg", [
       "-y",
@@ -260,12 +263,10 @@ async function buildReal() {
       "-vf",
       `fps=${fps},scale='min(${width},iw)':-2`,
       "-c:v",
-      "libwebp",
-      "-quality",
-      String(quality),
-      "-compression_level",
-      "6",
-      join(dir, "frame-%04d.webp"),
+      "mjpeg",
+      "-q:v",
+      String(qv),
+      join(dir, "frame-%04d.jpg"),
     ]);
     if (e.status !== 0) {
       console.error("ffmpeg kare hatası:", String(e.stderr).slice(-500));
@@ -282,10 +283,10 @@ async function buildReal() {
       label: "desktop",
     });
     if (result.ok) break;
-    if (quality > 40) {
-      quality -= 12;
+    if (qv < 28) {
+      qv += 4; // daha yüksek q:v = daha küçük (bütçeye in)
       console.warn(
-        `Bütçe aşıldı (${result.reason}). Kalite→${quality}, yeniden...`,
+        `Bütçe aşıldı (${result.reason}). JPEG q:v→${qv}, yeniden...`,
       );
     } else {
       break;
@@ -327,9 +328,9 @@ async function buildReal() {
         `${MOBILE_VIDEO_SOFT / 1000}KB (kabul edildi; --width düşürülebilir).`,
     );
   }
-  const { files: webps } = await frameSizes(dir);
-  const posterSrc = webps[Math.floor(webps.length * 0.85)] || webps.at(-1);
-  if (posterSrc) await copyFile(join(dir, posterSrc), join(dir, "poster.webp"));
+  const { files: jpgs } = await frameSizes(dir);
+  const posterSrc = jpgs[Math.floor(jpgs.length * 0.85)] || jpgs.at(-1);
+  if (posterSrc) await copyFile(join(dir, posterSrc), join(dir, "poster.jpg"));
 
   // Temizlik + manifest.
   for (const tmp of ["_concat.txt", "_src.mp4"]) {
@@ -338,12 +339,12 @@ async function buildReal() {
   const manifest = {
     placeholder: false, // gen:frames bunu KORUR (üzerine yazmaz)
     count: result.count,
-    ext: "webp",
+    ext: "jpg",
     pattern: "frame-%04d",
     width,
     height: 0, // ScrollFilm runtime'da naturalWidth/Height kullanır
     video: `/frames/${page}/clip.mp4`,
-    poster: `/frames/${page}/poster.webp`,
+    poster: `/frames/${page}/poster.jpg`,
   };
   await writeFile(
     join(dir, "manifest.json"),

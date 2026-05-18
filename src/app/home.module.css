@@ -24,9 +24,11 @@
   opacity: 0.5;
 }
 
-/* S5 "sistem açıldı" — aydınlık zemin, koyu metin (spec §5). */
+/* S5 "sistem açıldı" — sinematik görüntü üstünde beyaz + okunur gölge
+ * (gerçek fal.ai görüntüsü düz beyaz değil; koyu metin okunmuyordu). */
 .name {
-  color: var(--ink);
+  color: #fff;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.55);
 }
 .name h1 {
   font-size: clamp(3rem, 12vw, 11rem);
@@ -36,13 +38,14 @@
 .name p {
   margin-top: 0.6rem;
   font-size: clamp(0.95rem, 2.1vw, 1.4rem);
-  color: var(--ink-soft);
+  color: rgba(255, 255, 255, 0.82);
   letter-spacing: 0.01em;
 }
 
-/* S6 "keep scrolling" — aydınlık zeminde koyu, sönük. */
+/* S6 "keep scrolling" — beyaz, sönük, gölgeli (görüntü üstünde okunur). */
 .onLight {
-  color: var(--ink);
+  color: #fff;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
 }
 
 /* --- Film sonrası aydınlık bölüm --- */

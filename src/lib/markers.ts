@@ -29,12 +29,16 @@ export const CONTACT_MARKERS: Marker[] = [
   { name: "cursor", at: 0.65 }, // yanıp sönen imleç — "hat açık"
 ];
 
-/** Home filmi — 6 sahne (spec §5). */
+/**
+ * Home filmi — 6 sahne. Oranlar GERÇEK fal.ai görüntüsüne hizalandı
+ * (4 zincirli klip ~eşit: void / neurons / cable / screen→bloom; 229 kare).
+ * Beyaza patlama klibin sonunda → "white"/"land" geç.
+ */
 export const HOME_MARKERS: Marker[] = [
-  { name: "face", at: 0 }, // S1 açılış: nokta → yüz
-  { name: "brain", at: 0.15 }, // S2 beyne giriş — THINK
-  { name: "cable", at: 0.33 }, // S3 sinyal → kablo — BUILD (iplik doğar)
-  { name: "machine", at: 0.6 }, // S4 makineye varış — SHIP
-  { name: "white", at: 0.8 }, // S5 sistem açıldı — isim + kimlik
-  { name: "land", at: 0.96 }, // S6 yere iniş — keep scrolling
+  { name: "face", at: 0 }, // klip1 void: karanlık + mavi nokta — scroll to begin
+  { name: "brain", at: 0.22 }, // klip2 nöron lifleri — THINK
+  { name: "cable", at: 0.46 }, // klip3 örülü enerji kablosu — BUILD
+  { name: "machine", at: 0.68 }, // klip4 ekran/enerji — SHIP
+  { name: "white", at: 0.9 }, // ışık patlamaya başlar — isim + kimlik
+  { name: "land", at: 0.98 }, // doruk parlaklık — keep scrolling
 ];

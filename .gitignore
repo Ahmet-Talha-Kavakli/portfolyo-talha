@@ -41,5 +41,11 @@ yarn-error.log*
 next-env.d.ts
 
 # project-specific
-public/frames/
+# Kareler build'de üretilir → git-dışı. AMA gerçek Home filmi (fal.ai
+# çıktısı, placeholder:false) deploy'a girsin diye public/frames/home
+# dahil; projects/about/contact placeholder kalır (build'de üretilir).
+public/frames/*
+!public/frames/home
+public/frames/home/_*
 !.env.example
+_source-assets/

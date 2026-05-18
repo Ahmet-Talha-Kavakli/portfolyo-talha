@@ -142,10 +142,12 @@ try {
       };
     }, word);
 
-  await page.evaluate((y) => window.scrollTo(0, y), Math.round(dist * 0.22));
+  // Marker oranları (markers.ts): brain .22, cable .46, machine .68.
+  // THINK için .30 (brain bölgesi), SHIP için .78 (machine bölgesi).
+  await page.evaluate((y) => window.scrollTo(0, y), Math.round(dist * 0.3));
   await new Promise((r) => setTimeout(r, 950));
   const think = await sceneState("THINK");
-  await page.evaluate((y) => window.scrollTo(0, y), Math.round(dist * 0.65));
+  await page.evaluate((y) => window.scrollTo(0, y), Math.round(dist * 0.78));
   await new Promise((r) => setTimeout(r, 950));
   const ship = await sceneState("SHIP");
   const thinkOff = await sceneState("THINK");
@@ -258,30 +260,52 @@ try {
     hasTouch: true,
   });
   await ap.goto(URL, { waitUntil: "domcontentloaded", timeout: 30000 });
-  let a1 = "no-canvas";
-  for (let i = 0; i < 40; i++) {
-    a1 = await ap.evaluate(sig);
-    if (a1 !== "no-canvas" && a1 !== "no-ctx" && /[1-9]/.test(a1)) break;
-    await new Promise((r) => setTimeout(r, 250));
+  await new Promise((r) => setTimeout(r, 1500));
+  // Gerçek asset: manifest.video → <video> autoplay. Placeholder: <canvas>
+  // kare-playthrough. İkisini de kabul et.
+  const mediaTag = await ap.evaluate(
+    () => document.querySelector("video,canvas")?.tagName,
+  );
+  let playing = false;
+  if (mediaTag === "VIDEO") {
+    const t1 = await ap.evaluate(
+      () => document.querySelector("video")?.currentTime ?? -1,
+    );
+    await new Promise((r) => setTimeout(r, 1500));
+    const v = await ap.evaluate(() => {
+      const el = document.querySelector("video");
+      return {
+        t: el?.currentTime ?? -1,
+        hasSrc: !!(el?.currentSrc || el?.src),
+        autoplay: !!el?.autoplay,
+        muted: !!el?.muted,
+      };
+    });
+    playing = v.hasSrc && v.autoplay && v.muted && v.t > t1; // ilerliyor
+  } else {
+    let a1 = "no-canvas";
+    for (let i = 0; i < 40; i++) {
+      a1 = await ap.evaluate(sig);
+      if (a1 !== "no-canvas" && a1 !== "no-ctx" && /[1-9]/.test(a1)) break;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+    await new Promise((r) => setTimeout(r, 1200));
+    const a2 = await ap.evaluate(sig);
+    playing = a1 !== a2 && /[1-9]/.test(a1);
   }
-  await new Promise((r) => setTimeout(r, 1200)); // playthrough ilerlesin
-  const a2 = await ap.evaluate(sig);
   await ap.evaluate(() => window.scrollTo(0, 600));
   await new Promise((r) => setTimeout(r, 300));
   const aTop = await ap.evaluate(() => {
     const c = document.querySelector("canvas,video");
     return c ? Math.round(c.getBoundingClientRect().top) : 9999;
   });
-  const aDiag = await ap.evaluate(() => {
-    const c = document.querySelector("canvas,video");
-    return { tag: c?.tagName, w: c?.clientWidth, bw: c?.width };
-  });
-  a1 !== a2 && aTop < -100
-    ? console.log("OK 8    autoplay: kendiliğinden oynuyor, pin yok")
+  playing && aTop < -100
+    ? console.log(
+        `OK 8    autoplay (${mediaTag}): kendiliğinden oynuyor, pin yok`,
+      )
     : fail(
-        `autoplay: a1=${a1} a2=${a2} top@600=${aTop} diag=${JSON.stringify(
-          aDiag,
-        )} err=${aErr.slice(0, 3).join(" | ")}`,
+        `autoplay: playing=${playing} tag=${mediaTag} top@600=${aTop} ` +
+          `err=${aErr.slice(0, 3).join(" | ")}`,
       );
   await ap.close();
 } finally {

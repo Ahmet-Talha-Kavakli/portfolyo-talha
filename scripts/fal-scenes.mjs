@@ -1,49 +1,41 @@
 /**
- * Home filmi — fal.ai sahne klipleri (spec §10.6: tek sürekli video değil,
- * sahne sahne kısa klipler; frames.mjs --build bunları birleştirip kareler).
+ * Home filmi — YÜZSÜZ soyut sinematik (spec §10.6 revize).
  *
- * Anlatı: yüz karanlıktan belirir → beyne zoom, sinir sinyalleri →
- * sinyaller kabloya dönüşür → kablo bilgisayara akar → sistem beyaza açılır.
+ * Mantık: AI image-to-video bir portreyi beyne dönüştüremez; ama soyut
+ * sinematik harekette (karanlık, nöron lifleri, enerji kablosu, ışık) çok
+ * iyidir. Yüz YOK — kişisel marka tipografiyle veriliyor (beyazda "Talha").
  *
- * `image` ilk klipte yüz fotoğrafıdır (image-to-video); sonraki klipler
- * bir öncekinin son karesinden devam etmek için chain edilebilir.
+ * Sahne 1 = text-to-video (görüntü girişi yok). Sonraki sahneler önceki
+ * klibin SON KARESİNDEN devam eder (image-to-video) → tek akışkan film.
  *
- * Prompt'lar İngilizce (model İngilizce daha iyi anlıyor). Düzenlemekten
- * çekinme — üretmeden önce sana göstereceğim.
+ * Prompt'lar İngilizce. Düzenlemekten çekinme.
  */
 export const HOME_SCENES = [
   {
-    id: "01-face",
-    useFacePhoto: true,
+    id: "01-void",
+    t2v: true, // text-to-video (foto yok)
     prompt:
-      "A young man's face emerging slowly from pure black, faint cinematic rim light, calm, photoreal, subtle breathing, very dark background, slow push-in.",
+      "Cinematic, pure black void. A single faint point of electric-blue light begins to pulse and breathe in the center, slow, minimal, premium, deep darkness, subtle film grain, slow push-in.",
     seconds: 4,
   },
   {
-    id: "02-brain",
+    id: "02-neurons",
     prompt:
-      "Camera pushes into the head, dissolving into a dark neural space; glowing blue-violet neuron filaments and synapses firing softly, electric sparks, deep navy background, cinematic.",
+      "The point of light blooms into a dark neural space: glowing electric-blue and violet neuron filaments stretch and branch, synapses firing softly, drifting particles, deep navy-black background, cinematic, slow camera drift.",
     seconds: 4,
   },
   {
     id: "03-cable",
     prompt:
-      "The scattered neural signals converge into one bright electric-blue cable that stretches forward through darkness, energy flowing along it, sparks, high contrast.",
+      "The scattered glowing filaments converge and braid into ONE bright electric-blue energy cable that races forward through the darkness, energy pulsing along its length, sparks trailing, high contrast, cinematic speed.",
     seconds: 4,
   },
   {
-    id: "04-machine",
+    id: "04-screen-white",
     prompt:
-      "The glowing cable plugs into a sleek computer; the screen ignites with a spark; the dark scene begins to brighten from the screen outward, cinematic.",
+      "The glowing cable drives into a sleek dark screen; the screen ignites with a spark and light blooms outward, flooding the whole frame smoothly into soft warm white, calm, premium, gentle bloom, no text.",
     seconds: 4,
-  },
-  {
-    id: "05-white",
-    prompt:
-      "Light floods the frame smoothly until everything turns to soft warm white; clean, calm, premium, no text, gentle bloom.",
-    seconds: 3,
   },
 ];
 
-/** Diğer sayfa filmleri sonra (placeholder yeterli). */
 export const SCENES = { home: HOME_SCENES };
