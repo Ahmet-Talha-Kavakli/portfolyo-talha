@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Sora } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
+import LenisProvider from "@/components/LenisProvider";
 
 // Spec/hafıza: tüm site Sora. Variable font, --font-sora değişkenine bağlanır.
 const sora = Sora({
@@ -22,7 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={sora.variable}>
-      <body>{children}</body>
+      <body>
+        <LenisProvider>{children}</LenisProvider>
+      </body>
     </html>
   );
 }
