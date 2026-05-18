@@ -125,6 +125,46 @@ try {
     ? console.log("OK 5b   pin: film sonunda doğru bırakılıyor")
     : fail(`pin bırakılmadı: top=${releasedTop}`);
 
+  // (9) SceneText: marker'a göre doğru yazı görünür/gizli
+  const sceneState = (word) =>
+    page.evaluate((w) => {
+      const span = [...document.querySelectorAll("span")].find(
+        (s) => s.textContent.trim() === w,
+      );
+      if (!span) return null;
+      const box = span.closest("[aria-hidden]");
+      if (!box) return null;
+      const cs = getComputedStyle(box);
+      return {
+        ariaHidden: box.getAttribute("aria-hidden"),
+        opacity: parseFloat(cs.opacity),
+        vis: cs.visibility,
+      };
+    }, word);
+
+  await page.evaluate((y) => window.scrollTo(0, y), Math.round(dist * 0.22));
+  await new Promise((r) => setTimeout(r, 950));
+  const think = await sceneState("THINK");
+  await page.evaluate((y) => window.scrollTo(0, y), Math.round(dist * 0.65));
+  await new Promise((r) => setTimeout(r, 950));
+  const ship = await sceneState("SHIP");
+  const thinkOff = await sceneState("THINK");
+
+  think &&
+  think.ariaHidden === "false" &&
+  think.opacity > 0.5 &&
+  ship &&
+  ship.ariaHidden === "false" &&
+  ship.opacity > 0.5 &&
+  thinkOff &&
+  thinkOff.ariaHidden === "true"
+    ? console.log("OK 9    SceneText: marker'a senkron yazı geçişi")
+    : fail(
+        `SceneText: think=${JSON.stringify(think)} ship=${JSON.stringify(
+          ship,
+        )} thinkOff=${JSON.stringify(thinkOff)}`,
+      );
+
   // (6) buffering: cache KAPALI + yavaş ağ + fresh load + hızlı scroll
   const p2 = await page.target().createCDPSession();
   await p2.send("Network.enable");
