@@ -25,3 +25,20 @@ export function markerAt(progress: number, markers: Marker[]): string {
   }
   return active;
 }
+
+/**
+ * Buffering kararı (spec §10.3): hedef kare decode edilmediyse, çizilecek
+ * en yakın hazır kareyi (<= hedef, lastDrawn'dan aşağı tarayarak) ve
+ * buffering durumunu döner. Hiç hazır kare yoksa drawIndex = -1.
+ */
+export function pickFrame(
+  target: number,
+  decoded: boolean[],
+  lastDrawn: number,
+): { drawIndex: number; buffering: boolean } {
+  if (decoded[target]) return { drawIndex: target, buffering: false };
+  let j = Math.min(target, lastDrawn);
+  while (j > 0 && !decoded[j]) j--;
+  if (j >= 0 && decoded[j]) return { drawIndex: j, buffering: true };
+  return { drawIndex: -1, buffering: true };
+}

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { progressToFrame, markerAt } from "@/lib/frameMath";
+import { progressToFrame, markerAt, pickFrame } from "@/lib/frameMath";
 import { HOME_MARKERS, type Marker } from "@/lib/markers";
 
 describe("progressToFrame", () => {
@@ -56,5 +56,29 @@ describe("markerAt", () => {
     expect(markerAt(1, HOME_MARKERS)).toBe(
       HOME_MARKERS[HOME_MARKERS.length - 1].name,
     );
+  });
+});
+
+describe("pickFrame (buffering kararı)", () => {
+  it("hedef kare hazırsa onu çizer, buffering yok", () => {
+    const d = [true, true, true, true];
+    expect(pickFrame(2, d, 1)).toEqual({ drawIndex: 2, buffering: false });
+  });
+
+  it("hedef hazır değilse en yakın hazır <= hedef kareyi tutar + buffering", () => {
+    const d = [true, true, false, false];
+    // hedef 3 hazır değil, lastDrawn 1 -> 1'e kadar in, 1 hazır
+    expect(pickFrame(3, d, 1)).toEqual({ drawIndex: 1, buffering: true });
+  });
+
+  it("lastDrawn hedeften ileriyse aşağı, hedefe kadar iner", () => {
+    const d = [true, true, true, false, true];
+    // hedef 3 hazır değil, lastDrawn 4 -> min(3,4)=3 değil, 2 hazır
+    expect(pickFrame(3, d, 4)).toEqual({ drawIndex: 2, buffering: true });
+  });
+
+  it("hiç hazır kare yoksa drawIndex -1, buffering", () => {
+    const d = [false, false, false];
+    expect(pickFrame(2, d, -1)).toEqual({ drawIndex: -1, buffering: true });
   });
 });
