@@ -65,7 +65,8 @@ try {
     const r = await fetch("/frames/projects/manifest.json");
     return (await r.json()).count * 16;
   });
-  await page.evaluate((y) => window.scrollTo(0, y), Math.round(dist * 0.8));
+  // built marker .84 (markers.ts) → parlak/çözülmüş bölgeden örnekle
+  await page.evaluate((y) => window.scrollTo(0, y), Math.round(dist * 0.92));
   await new Promise((r) => setTimeout(r, 900));
   const built = await page.evaluate(() => {
     const sp = [...document.querySelectorAll("span")].find(

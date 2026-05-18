@@ -12,8 +12,8 @@ export type Marker = {
 
 /** Projects filmi — kısa: iplik ızgaraya örülür → beyaza açılır (spec §6). */
 export const PROJECTS_MARKERS: Marker[] = [
-  { name: "weave", at: 0 }, // iplik tek, çoğalır, ızgaraya örülür
-  { name: "built", at: 0.65 }, // beyaza açılır — "Built."
+  { name: "weave", at: 0 }, // karanlıkta mavi iplikler ızgaraya örülür
+  { name: "built", at: 0.84 }, // ızgara tamamlanır, beyaza açılır — "Built."
 ];
 
 /** About filmi — beyaza yakın başlar → kısa yüz → sabit portre (spec §6). */
