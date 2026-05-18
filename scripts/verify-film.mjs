@@ -160,6 +160,90 @@ try {
   errors.length === 0
     ? console.log("OK 1    konsol/sayfa hatası yok")
     : fail("hatalar:\n  " + errors.slice(0, 6).join("\n  "));
+
+  // İzolasyon: ana sayfanın CDP throttle/clearCache durumu sp/ap'yi
+  // etkilemesin diye kapat (app kodu warm-cache repro'da doğrulandı).
+  await page.close();
+
+  // (7) STATIC: reduced-motion -> tek kare, pin YOK, içerik hemen
+  const sp = await browser.newPage();
+  const sErr = [];
+  sp.on("pageerror", (e) => sErr.push(e.message));
+  sp.on("console", (m) => m.type() === "error" && sErr.push(m.text()));
+  await sp.setViewport({ width: 1280, height: 800 });
+  await sp.emulateMediaFeatures([
+    { name: "prefers-reduced-motion", value: "reduce" },
+  ]);
+  await sp.goto(URL, { waitUntil: "domcontentloaded", timeout: 30000 });
+  let sCanvas = "no-canvas";
+  for (let i = 0; i < 40; i++) {
+    sCanvas = await sp.evaluate(sig);
+    if (sCanvas !== "no-canvas" && sCanvas !== "no-ctx" && /[1-9]/.test(sCanvas))
+      break;
+    await new Promise((r) => setTimeout(r, 300));
+  }
+  await sp.evaluate(() => window.scrollTo(0, 600));
+  await new Promise((r) => setTimeout(r, 300));
+  const sTop = await sp.evaluate(() => {
+    const c = document.querySelector("canvas,video");
+    return c ? Math.round(c.getBoundingClientRect().top) : 9999;
+  });
+  const sDiag = await sp.evaluate(() => {
+    const c = document.querySelector("canvas");
+    return {
+      hasCanvas: !!c,
+      w: c?.clientWidth,
+      h: c?.clientHeight,
+      bw: c?.width,
+    };
+  });
+  sCanvas !== "no-canvas" && /[1-9]/.test(sCanvas) && sTop < -100
+    ? console.log("OK 7    static: tek kare çizili, pin yok (içerik akışta)")
+    : fail(
+        `static: canvas=${sCanvas} top@600=${sTop} diag=${JSON.stringify(
+          sDiag,
+        )} err=${sErr.slice(0, 3).join(" | ")}`,
+      );
+  await sp.close();
+
+  // (8) AUTOPLAY: dar/dokunmatik -> kendiliğinden oynar, pin yok
+  const ap = await browser.newPage();
+  const aErr = [];
+  ap.on("pageerror", (e) => aErr.push(e.message));
+  ap.on("console", (m) => m.type() === "error" && aErr.push(m.text()));
+  await ap.setViewport({
+    width: 390,
+    height: 780,
+    isMobile: true,
+    hasTouch: true,
+  });
+  await ap.goto(URL, { waitUntil: "domcontentloaded", timeout: 30000 });
+  let a1 = "no-canvas";
+  for (let i = 0; i < 40; i++) {
+    a1 = await ap.evaluate(sig);
+    if (a1 !== "no-canvas" && a1 !== "no-ctx" && /[1-9]/.test(a1)) break;
+    await new Promise((r) => setTimeout(r, 250));
+  }
+  await new Promise((r) => setTimeout(r, 1200)); // playthrough ilerlesin
+  const a2 = await ap.evaluate(sig);
+  await ap.evaluate(() => window.scrollTo(0, 600));
+  await new Promise((r) => setTimeout(r, 300));
+  const aTop = await ap.evaluate(() => {
+    const c = document.querySelector("canvas,video");
+    return c ? Math.round(c.getBoundingClientRect().top) : 9999;
+  });
+  const aDiag = await ap.evaluate(() => {
+    const c = document.querySelector("canvas,video");
+    return { tag: c?.tagName, w: c?.clientWidth, bw: c?.width };
+  });
+  a1 !== a2 && aTop < -100
+    ? console.log("OK 8    autoplay: kendiliğinden oynuyor, pin yok")
+    : fail(
+        `autoplay: a1=${a1} a2=${a2} top@600=${aTop} diag=${JSON.stringify(
+          aDiag,
+        )} err=${aErr.slice(0, 3).join(" | ")}`,
+      );
+  await ap.close();
 } finally {
   await browser.close();
 }
