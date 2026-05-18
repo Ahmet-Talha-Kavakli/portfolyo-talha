@@ -235,6 +235,12 @@ export default function ScrollFilm({
     const half = Math.ceil(m.count / 2);
     let decodedCount = 0;
 
+    const fireReady = () => {
+      if (!alive || readyFiredRef.current) return;
+      readyFiredRef.current = true;
+      setReady(true);
+    };
+
     const checkReady = () => {
       let firstOk = true;
       for (let i = 0; i < firstN; i++)
@@ -243,11 +249,13 @@ export default function ScrollFilm({
           break;
         }
       setLoadPct(Math.round((decodedCount / m.count) * 100));
-      if (firstOk && decodedCount >= half && alive && !readyFiredRef.current) {
-        readyFiredRef.current = true;
-        setReady(true);
-      }
+      if (firstOk && decodedCount >= half) fireReady();
     };
+
+    // Watchdog: ilk 30 kareden biri takılırsa (sunucu restart / ağ hıçkırığı)
+    // sonsuza kilitlenmesin — süre dolunca eldeki karelerle devam et
+    // (pickFrame/buffering eksiği zaten yönetir). Kullanıcı asla takılmaz.
+    const watchdog = setTimeout(fireReady, 8000);
 
     for (let i = 0; i < m.count; i++) {
       const img = new Image();
@@ -267,6 +275,7 @@ export default function ScrollFilm({
     }
     return () => {
       alive = false;
+      clearTimeout(watchdog);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [manifest, usesFrames, mode, framesDir]);
