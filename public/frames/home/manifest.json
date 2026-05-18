@@ -1,9 +1,9 @@
 {
   "placeholder": false,
-  "count": 229,
+  "count": 159,
   "ext": "jpg",
   "pattern": "frame-%04d",
-  "width": 1600,
+  "width": 1280,
   "height": 0,
   "video": "/frames/home/clip.mp4",
   "poster": "/frames/home/poster.jpg"

@@ -28,7 +28,19 @@
  * (gerçek fal.ai görüntüsü düz beyaz değil; koyu metin okunmuyordu). */
 .name {
   color: #fff;
-  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.55);
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6);
+}
+/* Video sonu bembeyaz (MacBook ekranı) → ismin arkasına yumuşak koyu hâle
+ * (scrim), beyaz yazı her zaman okunur. Kutu değil — yumuşak radyal,
+ * "sakin lüks". SceneText name=white içinde <div><h1/><p/></div> sarar. */
+.name > div {
+  padding: 12vh 12vw;
+  background: radial-gradient(
+    58% 58% at 50% 50%,
+    rgba(5, 8, 16, 0.66) 0%,
+    rgba(5, 8, 16, 0.42) 45%,
+    rgba(5, 8, 16, 0) 78%
+  );
 }
 .name h1 {
   font-size: clamp(3rem, 12vw, 11rem);
@@ -42,10 +54,14 @@
   letter-spacing: 0.01em;
 }
 
-/* S6 "keep scrolling" — beyaz, sönük, gölgeli (görüntü üstünde okunur). */
+/* S6 "keep scrolling" — video sonu bembeyaz; küçük yazı için katmanlı
+ * koyu hâle (kutu değil) → beyaz üstünde bile okunur. */
 .onLight {
   color: #fff;
-  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
+  text-shadow:
+    0 0 6px rgba(5, 8, 16, 0.9),
+    0 0 14px rgba(5, 8, 16, 0.7),
+    0 2px 24px rgba(5, 8, 16, 0.6);
 }
 
 /* --- Film sonrası aydınlık bölüm --- */

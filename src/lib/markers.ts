@@ -30,15 +30,15 @@ export const CONTACT_MARKERS: Marker[] = [
 ];
 
 /**
- * Home filmi — 6 sahne. Oranlar GERÇEK fal.ai görüntüsüne hizalandı
- * (4 zincirli klip ~eşit: void / neurons / cable / screen→bloom; 229 kare).
- * Beyaza patlama klibin sonunda → "white"/"land" geç.
+ * Home filmi — 6 sahne. Oranlar kullanıcının TEK videosunun hikâyesine
+ * hizalandı (10sn: silüet → beyin/nöron → nöron ağı → kablo örgüsü →
+ * zoom out → MacBook + ışık patlaması).
  */
 export const HOME_MARKERS: Marker[] = [
-  { name: "face", at: 0 }, // klip1 void: karanlık + mavi nokta — scroll to begin
-  { name: "brain", at: 0.22 }, // klip2 nöron lifleri — THINK
-  { name: "cable", at: 0.46 }, // klip3 örülü enerji kablosu — BUILD
-  { name: "machine", at: 0.68 }, // klip4 ekran/enerji — SHIP
-  { name: "white", at: 0.9 }, // ışık patlamaya başlar — isim + kimlik
+  { name: "face", at: 0 }, // karanlıkta yüzsüz silüet — scroll to begin
+  { name: "brain", at: 0.12 }, // kafaya zoom, beyin nöronları — THINK
+  { name: "cable", at: 0.58 }, // nöronlar kabloya örülüyor — BUILD
+  { name: "machine", at: 0.82 }, // zoom out → MacBook — SHIP
+  { name: "white", at: 0.92 }, // ekran ışıkla açılıyor — isim + kimlik
   { name: "land", at: 0.98 }, // doruk parlaklık — keep scrolling
 ];

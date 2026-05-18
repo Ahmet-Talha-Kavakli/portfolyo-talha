@@ -69,17 +69,25 @@ try {
 
   await page.goto(URL, { waitUntil: "domcontentloaded", timeout: 30000 });
 
-  // (2) ready: canvas boş olmayana kadar bekle (loading kalkar)
+  // (2) ready: paint çalıştı mı? Film KARANLIK kareyle başlayabilir
+  // (silüet) → "parlak piksel" yetersiz. Canvas backing'i viewport'a
+  // boyutlandıysa (default 300 değil) paint çalışmış demektir.
   let ready = false;
   for (let i = 0; i < 60; i++) {
+    const painted = await page.evaluate(() => {
+      const c = document.querySelector("canvas");
+      return !!c && c.width > 320 && c.height > 0;
+    });
     const s = await page.evaluate(sig);
-    if (s !== "no-canvas" && s !== "no-ctx" && /[1-9]/.test(s)) {
+    if (painted || (s !== "no-canvas" && s !== "no-ctx" && /[1-9]/.test(s))) {
       ready = true;
       break;
     }
     await new Promise((r) => setTimeout(r, 500));
   }
-  ready ? console.log("OK 2/3  ready + canvas non-blank") : fail("ready/canvas");
+  ready
+    ? console.log("OK 2/3  ready + canvas boyandı")
+    : fail("ready/canvas");
 
   // Pinli mesafe = manifest.count * scrollPerFrame(=14, ScrollFilm default)
   const count = await page.evaluate(async () => {
@@ -142,12 +150,12 @@ try {
       };
     }, word);
 
-  // Marker oranları (markers.ts): brain .22, cable .46, machine .68.
-  // THINK için .30 (brain bölgesi), SHIP için .78 (machine bölgesi).
+  // Marker oranları (markers.ts): brain .12, cable .58, machine .82, white .92.
+  // THINK için .30 (brain bölgesi), SHIP için .87 (machine bölgesi).
   await page.evaluate((y) => window.scrollTo(0, y), Math.round(dist * 0.3));
   await new Promise((r) => setTimeout(r, 950));
   const think = await sceneState("THINK");
-  await page.evaluate((y) => window.scrollTo(0, y), Math.round(dist * 0.78));
+  await page.evaluate((y) => window.scrollTo(0, y), Math.round(dist * 0.87));
   await new Promise((r) => setTimeout(r, 950));
   const ship = await sceneState("SHIP");
   const thinkOff = await sceneState("THINK");
