@@ -130,23 +130,38 @@
   flex-wrap: wrap;
   gap: 0.6rem;
 }
-.gallery {
-  margin: 8vh 0;
-  display: grid;
-  gap: clamp(1rem, 3vh, 2.5rem);
-}
-/* Mockup'lar kendi koyu sahnesinde 16:10 → kırpma yok, tam kompozisyon. */
-.galleryImg,
-.leadImg {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 14px;
-  background: var(--bg-dark);
-  box-shadow: 0 30px 70px rgba(7, 11, 22, 0.25);
-}
-.leadImg {
+/* App Store tarzı önizleme şeridi: eşit yükseklik, yatay kaydır + snap.
+   Telefon (9:16) ve laptop (tight) tek sırada, aynı yükseklikte. */
+.shots {
+  display: flex;
+  gap: clamp(1rem, 2.2vw, 1.8rem);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
   margin: 7vh 0 9vh;
+  /* kenarlardan tam-bleed hissi: padding kadar negatif margin */
+  padding: 0.5rem max(8vw, 1rem) 2rem;
+  margin-left: max(-8vw, -1rem);
+  margin-right: max(-8vw, -1rem);
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.shots::-webkit-scrollbar {
+  height: 6px;
+}
+.shots::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 3px;
+}
+.shot {
+  height: clamp(360px, 52vh, 580px);
+  width: auto;
+  flex: 0 0 auto;
+  display: block;
+  border-radius: 16px;
+  scroll-snap-align: center;
+  background: var(--bg-dark);
+  box-shadow: 0 24px 60px rgba(7, 11, 22, 0.22);
 }
 
 /* --- Vaka çalışması düzeni --- */
@@ -186,19 +201,20 @@
   color: var(--line);
 }
 .caseBody {
+  max-width: 62ch;
   display: grid;
-  gap: clamp(3rem, 9vh, 7rem);
+  gap: 1.6rem;
   margin-bottom: 8vh;
 }
-.caseBlock {
-  display: grid;
-  gap: clamp(2rem, 6vh, 4rem);
-}
-.caseBlock p {
-  max-width: 60ch;
-  font-size: clamp(1.15rem, 2.4vw, 1.65rem);
-  line-height: 1.55;
+.caseBody p {
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  line-height: 1.6;
   color: var(--ink);
+}
+.caseBody p:first-child {
+  font-weight: 600;
+  font-size: clamp(1.25rem, 2.6vw, 1.8rem);
+  letter-spacing: -0.02em;
 }
 .detailLink {
   display: inline-block;

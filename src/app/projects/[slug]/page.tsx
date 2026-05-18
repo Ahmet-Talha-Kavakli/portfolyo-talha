@@ -77,42 +77,28 @@ export default async function ProjectDetail({ params }: Props) {
           )}
         </header>
 
-        {/* Lead görsel */}
-        {shots[0] && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={shots[0]}
-            alt={`${p.name} — overview`}
-            className={styles.leadImg}
-          />
-        )}
-
-        {/* Anlatı paragrafları, aralarına tam-genişlik galeri görselleri */}
-        <div className={styles.caseBody}>
-          {p.body.map((para, i) => (
-            <div key={i} className={styles.caseBlock}>
-              <p>{para}</p>
-              {shots[i + 1] && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={shots[i + 1]}
-                  alt={`${p.name} — ${i + 2}`}
-                  className={styles.galleryImg}
-                  loading="lazy"
-                />
-              )}
-            </div>
-          ))}
-          {/* Anlatıdan fazla görsel kaldıysa sona ekle */}
-          {shots.slice(p.body.length + 1).map((src, i) => (
+        {/* App Store tarzı önizleme şeridi — eşit yükseklik, yatay kaydır */}
+        <div
+          className={styles.shots}
+          role="region"
+          aria-label={`${p.name} preview`}
+        >
+          {shots.map((src, i) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              key={`extra-${i}`}
+              key={i}
               src={src}
-              alt={`${p.name} — ${p.body.length + 2 + i}`}
-              className={styles.galleryImg}
-              loading="lazy"
+              alt={`${p.name} — preview ${i + 1}`}
+              className={styles.shot}
+              loading={i < 2 ? "eager" : "lazy"}
             />
+          ))}
+        </div>
+
+        {/* Anlatı — temiz okunur sütun */}
+        <div className={styles.caseBody}>
+          {p.body.map((para, i) => (
+            <p key={i}>{para}</p>
           ))}
         </div>
 
