@@ -10,6 +10,12 @@ export type Marker = {
   at: number;
 };
 
+/** Projects filmi — kısa: iplik ızgaraya örülür → beyaza açılır (spec §6). */
+export const PROJECTS_MARKERS: Marker[] = [
+  { name: "weave", at: 0 }, // iplik tek, çoğalır, ızgaraya örülür
+  { name: "built", at: 0.65 }, // beyaza açılır — "Built."
+];
+
 /** Home filmi — 6 sahne (spec §5). */
 export const HOME_MARKERS: Marker[] = [
   { name: "face", at: 0 }, // S1 açılış: nokta → yüz

@@ -1,0 +1,159 @@
+/* Projects — film başlık + şeritler + detay sayfası. */
+
+.built {
+  color: var(--ink);
+}
+.built span {
+  font-size: clamp(3rem, 13vw, 12rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+}
+
+.after {
+  background: var(--bg-light);
+  color: var(--ink);
+}
+
+/* --- Şeritler (kart değil) --- */
+.strips {
+  padding: 6vh 6vw 12vh;
+}
+.strip {
+  position: relative;
+  display: grid;
+  grid-template-columns: clamp(3rem, 8vw, 8rem) 1fr;
+  gap: clamp(1rem, 4vw, 4rem);
+  align-items: center;
+  padding: clamp(2rem, 6vh, 5rem) 0;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+}
+.strip:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.index {
+  font-size: clamp(1.2rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: var(--ink-soft);
+  letter-spacing: -0.02em;
+}
+.body {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+}
+@media (max-width: 760px) {
+  .body {
+    grid-template-columns: 1fr;
+  }
+}
+.cover {
+  width: 100%;
+  height: clamp(32vh, 34vw, 52vh);
+  object-fit: cover;
+  background: var(--line);
+  display: block;
+  transition: transform 0.6s var(--ease-cine);
+}
+.strip:hover .cover {
+  transform: scale(1.02);
+}
+.name {
+  font-size: clamp(1.8rem, 5vw, 4rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+}
+.tagline {
+  margin-top: 0.8rem;
+  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+  color: var(--ink-soft);
+  max-width: 34ch;
+}
+.tech {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.tag {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+}
+.thread {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 8px;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-cine);
+}
+.strip:hover .thread {
+  opacity: 1;
+}
+
+/* --- Detay sayfası --- */
+.detail {
+  background: var(--bg-light);
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 18vh 8vw 14vh;
+}
+.detailThread {
+  height: 10px;
+  margin-bottom: 6vh;
+}
+.back {
+  display: inline-block;
+  margin-bottom: 3vh;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.detailName {
+  font-size: clamp(2.5rem, 9vw, 7rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+.detailMeta {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.gallery {
+  margin: 8vh 0;
+  display: grid;
+  gap: clamp(1rem, 3vh, 2.5rem);
+}
+.galleryImg {
+  width: 100%;
+  height: clamp(40vh, 50vw, 75vh);
+  object-fit: cover;
+  background: var(--line);
+  display: block;
+}
+.detailBody {
+  max-width: 60ch;
+  font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+  line-height: 1.55;
+  color: var(--ink);
+}
+.detailLink {
+  display: inline-block;
+  margin-top: 4vh;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 2px;
+}
