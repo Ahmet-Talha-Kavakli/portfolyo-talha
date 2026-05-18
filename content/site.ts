@@ -53,16 +53,16 @@ export type SiteContent = {
 
 export const site: SiteContent = {
   name: "Talha",
-  tagline: "Software · 3D · AI — I build the whole thing.",
+  tagline: "Software · 3D · AI — I build the whole product.",
   identity: [
-    "I design and build end-to-end — backend, frontend, 3D and AI.",
-    "Whatever you're looking for, it's here.",
+    "I design and engineer complete products — backend, frontend, 3D and AI.",
+    "One person, the entire stack, shipped to production.",
   ],
   about: [
-    "I'm Talha — a builder. I take an idea from the first sketch to a shipped, running product.",
-    "I don't stop at one layer. Backend logic, frontend craft, 3D scenes and AI all live in the same head — I've built whole platforms end to end, alone.",
-    "I care about the feel of a thing — how it moves, how it reads, how it holds up under real load and real users.",
-    "What I want to be known for: the whole thing, done well, end to end.",
+    "I'm Talha — a product engineer. I take an idea from a blank screen to a running product people actually use.",
+    "I work across the whole stack: backend architecture, frontend craft, real-time 3D and applied AI. I've designed and shipped entire platforms end to end, on my own.",
+    "I care about how a product feels — how it moves, how it reads, and how it holds up under real load and real users, not just in a demo.",
+    "What I want to be known for: ambitious products, built well, all the way through.",
   ],
   skills: ["Software", "Backend", "Frontend", "3D", "AI"],
   stack: [
@@ -81,7 +81,7 @@ export const site: SiteContent = {
       index: "01",
       name: "Meta-World",
       tagline:
-        "An AI fitness platform — a voice AI coach with 3D characters, built end to end.",
+        "An AI fitness platform with a voice coach and real-time 3D characters — designed and engineered end to end.",
       tech: [
         "React Native",
         "Expo",
@@ -91,20 +91,20 @@ export const site: SiteContent = {
         "AI",
         "ElevenLabs",
       ],
-      cover: "/placeholder/project-01.svg",
-      gallery: ["/placeholder/project-01.svg"],
-      body: "Meta-World is an AI fitness and body-coaching platform built as a full monorepo — mobile app, backend, dashboard and web. It pairs a voice-driven AI coach with real-time 3D characters and a nutrition system, designed to feel less like an app and more like a trainer who knows you. Backend, frontend, 3D and AI — all built end to end.",
+      cover: "/projects/meta-world.png",
+      gallery: ["/projects/meta-world.png"],
+      body: "Meta-World is an AI fitness and body-coaching platform built as a complete monorepo — mobile app, backend, dashboard and marketing web. It pairs a voice-driven AI coach with real-time 3D characters and an adaptive nutrition system, designed to feel less like an app and more like a trainer who actually knows you. Architecture, product, 3D and AI — all built and shipped by one person.",
     },
     {
       slug: "replara",
       index: "02",
       name: "Replara",
       tagline:
-        "AI-powered reputation management — on-brand review responses across every channel.",
+        "AI-powered reputation management — on-brand review responses across every channel, in production.",
       tech: ["AI", "Next.js", "TypeScript", "Node", "PostgreSQL"],
-      cover: "/placeholder/project-02.svg",
-      gallery: ["/placeholder/project-02.svg"],
-      body: "Replara is an AI-driven reputation platform that turns customer reviews into an advantage. It centralizes Google, Trustpilot, app stores and social into one dashboard, then uses context-aware AI to draft responses that hold the brand's voice — with sentiment analysis, crisis detection and competitor intelligence. Live in production at replara.com.",
+      cover: "/projects/replara.png",
+      gallery: ["/projects/replara.png"],
+      body: "Replara is an AI-driven reputation platform that turns customer reviews into an advantage. It centralizes Google, Trustpilot, app stores and social into a single dashboard, then uses context-aware AI to draft responses that hold each brand's voice — with sentiment analysis, crisis detection and competitor intelligence. Live in production at replara.com.",
       link: "https://replara.com",
     },
   ],
