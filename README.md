@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Talha — Portfolyo
 
-## Getting Started
+Sinematik, scroll-film tabanlı kişisel-marka portfolyo sitesi.
+Tasarım/plan: [docs/superpowers/specs](docs/superpowers/specs) · [docs/superpowers/plans](docs/superpowers/plans).
 
-First, run the development server:
+Stack: Next.js (App Router) · GSAP/ScrollTrigger · Lenis · Sora · Resend.
+
+## Geliştirme
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+cp .env.example .env.local   # değerleri doldur (aşağı bak)
+pnpm dev                     # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`predev`/`prebuild` otomatik placeholder kareleri üretir (bkz. "Kareler").
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Komutlar: `pnpm test:run` (unit) · `pnpm gen:frames` (kareler) ·
+`node scripts/verify-*.mjs http://localhost:3000` (film/menu/projects/about/contact/quality tarayıcı doğrulamaları — kurulu Chrome gerekir).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## İçerik (tek kaynak)
 
-## Learn More
+**Tüm değişken içerik** `content/site.ts` içinde: isim, kimlik cümlesi,
+about paragrafları, yetenekler, stack, projeler (slug/ad/cümle/tech/görsel/
+galeri/anlatı/link), sosyal linkler, şehir, timezone. Placeholder'ı gerçeğiyle
+değiştirmek = yalnız bu dosyayı düzenlemek. Proje görselleri `public/`'e konur,
+yol `content/site.ts`'ten referanslanır.
 
-To learn more about Next.js, take a look at the following resources:
+## Ortam değişkenleri (`.env.local` — git'e GİRMEZ)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Değişken | Ne için |
+|---|---|
+| `RESEND_API_KEY` | Contact formu maili (resend.com) |
+| `CONTACT_TO_EMAIL` | Formun düşeceği **gerçek** alıcı adres |
+| `CONTACT_FROM_EMAIL` | Resend "from" (doğrulanmış domain ya da `onboarding@resend.dev`) |
+| `FAL_KEY` | Yalnız `scripts/frames.mjs` gerçek pipeline (Faz 7); tarayıcıya gitmez |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Not: `onboarding@resend.dev` test modunda yalnız Resend hesabı sahibinin
+adresine gönderir. Kendi domainini doğrulayıp `CONTACT_FROM_EMAIL`'i güncelle.
+`CONTACT_TO_EMAIL` placeholder kalırsa form "Couldn't send" gösterir (doğru
+davranış).
 
-## Deploy on Vercel
+## Kareler (scroll-film)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`public/frames/` **git'e girmez** (.gitignore). `predev`/`prebuild`
+`pnpm gen:frames` ile düz-renk **placeholder** kareler üretir (~1MB toplam,
+bütçe içinde) — yani local ve Vercel build'inde kareler otomatik oluşur.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Gerçek video (Faz 7, beklemede):** fal.ai sahne klipleri → ffmpeg → WebP
+kareler `scripts/frames.mjs` ile. Gerçek manifest `placeholder:false` taşır;
+`gen:frames` o sayfayı **korur** (üzerine yazmaz). Gerçek kareler deploy'a
+girmeli: ya `.gitignore`'dan `public/frames/<page>` çıkarılır ya da CI'da
+üretilir (Faz 7'de netleşecek).
+
+## Vercel'e deploy
+
+1. Repo'yu Vercel'e bağla (framework: Next.js — otomatik algılanır).
+2. **Environment Variables** ekle: `RESEND_API_KEY`, `CONTACT_TO_EMAIL`,
+   `CONTACT_FROM_EMAIL`.
+3. Build komutu `vercel.json`'da: `pnpm gen:frames && next build`
+   (kareler her build'de üretilir — `public/frames` git'te olmadığı için şart).
+4. Deploy. Preview URL üzerinden `verify-*` scriptleri çalıştırılabilir.
+
+## Bekleyen (kullanıcı aksiyonu)
+
+- `CONTACT_TO_EMAIL` → gerçek adres (canlı mail testi için).
+- Faz 7: `_source-assets/` yüz fotoğrafları + fal.ai klipleri + `ffmpeg`
+  (`brew install ffmpeg`) → gerçek Home/diğer videolar.
