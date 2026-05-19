@@ -32,12 +32,17 @@ export default function AboutPage() {
 
       <div className={styles.after}>
         <header className={styles.aboutHead}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={site.portrait}
-            alt={site.name}
-            className={styles.portrait}
-          />
+          <figure className={styles.portraitWrap}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={site.portrait}
+              alt={site.name}
+              className={styles.portrait}
+            />
+            <span className={styles.portraitTint} aria-hidden="true" />
+            <span className={styles.portraitGrain} aria-hidden="true" />
+            <span className={styles.portraitLine} aria-hidden="true" />
+          </figure>
           <div>
             <h1 className={styles.aboutName}>{site.name}</h1>
             <p className={styles.aboutRole}>{site.tagline}</p>
