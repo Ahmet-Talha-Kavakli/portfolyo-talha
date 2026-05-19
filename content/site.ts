@@ -47,6 +47,8 @@ export type SiteContent = {
   stack: string[];
   projects: Project[];
   socials: Social[];
+  /** About portresi (public/ yolu). */
+  portrait: string;
   /** Contact köşe: şehir + canlı saat. */
   city: string;
   /** IANA timezone (canlı saat için). */
@@ -136,6 +138,7 @@ export const site: SiteContent = {
   socials: [
     { label: "Email", href: "mailto:carreinaofficial@gmail.com" },
   ],
+  portrait: "/portrait.jpg",
   city: "Istanbul",
   timezone: "Europe/Istanbul",
 };

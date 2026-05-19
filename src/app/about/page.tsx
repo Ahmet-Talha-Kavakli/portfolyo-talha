@@ -31,7 +31,18 @@ export default function AboutPage() {
       </ScrollFilm>
 
       <div className={styles.after}>
-        <h1 className="sr-only">About {site.name}</h1>
+        <header className={styles.aboutHead}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={site.portrait}
+            alt={site.name}
+            className={styles.portrait}
+          />
+          <div>
+            <h1 className={styles.aboutName}>{site.name}</h1>
+            <p className={styles.aboutRole}>{site.tagline}</p>
+          </div>
+        </header>
         <section className={styles.grid}>
           <div className={styles.bio}>
             {site.about.map((para, i) => (
