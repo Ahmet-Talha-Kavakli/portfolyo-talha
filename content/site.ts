@@ -41,8 +41,8 @@ export type SiteContent = {
   identity: string[];
   /** About sol sütun anlatı paragrafları (3-4). */
   about: string[];
-  /** About yetenek hattı. */
-  skills: string[];
+  /** About yetenek hattı — disiplin + kısa açıklama (skill-bar değil). */
+  skills: { label: string; detail: string }[];
   /** About alt: araç/stack listesi (mono). */
   stack: string[];
   projects: Project[];
@@ -68,7 +68,28 @@ export const site: SiteContent = {
     "I care about how a product feels — how it moves, how it reads, and how it holds up under real load and real users, not just in a demo.",
     "What I want to be known for: ambitious products, built well, all the way through.",
   ],
-  skills: ["Software", "Backend", "Frontend", "3D", "AI"],
+  skills: [
+    {
+      label: "Full-stack engineering",
+      detail: "Backend architecture, APIs, web & mobile — in production",
+    },
+    {
+      label: "Product & UI design",
+      detail: "Interface, interaction, design systems, motion",
+    },
+    {
+      label: "Real-time 3D",
+      detail: "Three.js / WebGL — characters, scenes, performance",
+    },
+    {
+      label: "Applied AI",
+      detail: "LLMs, voice, generation pipelines in real products",
+    },
+    {
+      label: "End-to-end delivery",
+      detail: "From a blank screen to a shipped product — solo",
+    },
+  ],
   stack: [
     "TypeScript",
     "Next.js",

@@ -61,8 +61,11 @@ export default function SkillLines() {
   return (
     <div ref={ref} className={styles.skills}>
       {site.skills.map((s) => (
-        <div key={s} className={styles.skillRow}>
-          <span className={styles.skillLabel}>{s}</span>
+        <div key={s.label} className={styles.skillRow}>
+          <div className={styles.skillHead}>
+            <span className={styles.skillLabel}>{s.label}</span>
+            <span className={styles.skillDetail}>{s.detail}</span>
+          </div>
           <span className={styles.track}>
             <span className={styles.fill} />
           </span>

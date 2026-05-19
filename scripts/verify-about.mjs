@@ -59,9 +59,12 @@ try {
   // (2) SSR içerik
   const hasBio =
     /product engineer/i.test(html) && /end to end/i.test(html);
-  const hasSkills = ["Software", "Backend", "Frontend", "3D", "AI"].every(
-    (s) => html.includes(s),
-  );
+  const hasSkills = [
+    "Full-stack engineering",
+    "Product &amp; UI design",
+    "Real-time 3D",
+    "Applied AI",
+  ].every((s) => html.includes(s));
   const hasStack = /TypeScript/.test(html) && /Three\.js/.test(html);
   hasBio && hasSkills && hasStack
     ? console.log("OK 2    SSR: bio + yetenekler + stack var")
@@ -91,7 +94,7 @@ try {
   await new Promise((r) => setTimeout(r, 400));
   const skillsAbs = await page.evaluate(() => {
     const lbl = [...document.querySelectorAll("span")].find(
-      (s) => s.textContent.trim() === "Software",
+      (s) => s.textContent.trim() === "Full-stack engineering",
     );
     return lbl ? window.scrollY + lbl.getBoundingClientRect().top : 0;
   });
