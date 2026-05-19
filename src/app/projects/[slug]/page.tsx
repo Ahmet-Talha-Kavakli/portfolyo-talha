@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SignalThread from "@/components/SignalThread";
+import Reveal from "@/components/fx/Reveal";
+import Magnetic from "@/components/fx/Magnetic";
 import Footer from "@/components/Footer";
 import { site } from "@content";
 import styles from "../projects.module.css";
@@ -66,14 +68,16 @@ export default async function ProjectDetail({ params }: Props) {
             ))}
           </div>
           {p.link && (
-            <a
-              href={p.link}
-              className={styles.detailLink}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Visit live ↗
-            </a>
+            <Magnetic strength={0.3} max={12}>
+              <a
+                href={p.link}
+                className={styles.detailLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Visit live ↗
+              </a>
+            </Magnetic>
           )}
         </header>
 
@@ -98,7 +102,9 @@ export default async function ProjectDetail({ params }: Props) {
         {/* Anlatı — temiz okunur sütun */}
         <div className={styles.caseBody}>
           {p.body.map((para, i) => (
-            <p key={i}>{para}</p>
+            <Reveal as="p" key={i} delay={i * 0.08}>
+              {para}
+            </Reveal>
           ))}
         </div>
 

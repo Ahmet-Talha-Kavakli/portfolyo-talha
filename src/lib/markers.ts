@@ -16,13 +16,16 @@ export const PROJECTS_MARKERS: Marker[] = [
   { name: "built", at: 0.84 }, // ızgara tamamlanır, beyaza açılır — "Built."
 ];
 
-/** About filmi — kullanıcı videosu: MacBook terminal kod → kod taşar →
- *  koddan insan figürü → patlama → parçacıklar. "Talha", kod-insan tam
- *  oluştuğunda görünür. */
+/** About filmi — kullanıcı videosu: karanlık odada omuz-üstü bir yazılımcı,
+ *  ekran kodla aydınlanır, eller klavyede; sonra sıcak ışık yükselir ve kare
+ *  temiz aydınlığa açılır (sitenin dark→light imzası). "Talha" yalnız karanlık
+ *  kodlama fazında görünür (beyaz metin orada okunur), sıcak bloom başlamadan
+ *  kaybolur — sahne home'daki gibi metinsiz trailing marker'la sayfaya
+ *  devreder. fal.ai çıktısı yaklaşık → sınır kayarsa yalnız bu oranlar ayarlanır. */
 export const ABOUT_MARKERS: Marker[] = [
-  { name: "open", at: 0 }, // MacBook terminalde kod
-  { name: "face", at: 0.4 }, // kod taşar, figür oluşmaya başlar
-  { name: "rest", at: 0.74 }, // koddan insan tam oluştu — "Talha"
+  { name: "open", at: 0 }, // karanlıkta omuz-üstü kodlama — establish beat
+  { name: "rest", at: 0.15 }, // karanlık kodlama üstünde "Talha" (okunur)
+  { name: "bright", at: 0.6 }, // sıcak ışık yükseldi — "Talha" söner, film açılır
 ];
 
 /** Contact filmi — kullanıcı videosu: iki ışık noktası karanlıkta

@@ -1,4 +1,5 @@
 import { site, type Social } from "@content";
+import Magnetic from "@/components/fx/Magnetic";
 import styles from "./Footer.module.css";
 
 // İkonlar inline SVG (emoji yok — hafıza/spec §4). Brand glyph'leri fill,
@@ -58,16 +59,19 @@ export default function Footer() {
       </div>
       <nav className={styles.socials} aria-label="Social links">
         {site.socials.map((s) => (
-          <a
-            key={s.label}
-            href={s.href}
-            className={styles.icon}
-            aria-label={s.label}
-            target={s.href.startsWith("http") ? "_blank" : undefined}
-            rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
-          >
-            <Icon label={s.label} />
-          </a>
+          <Magnetic key={s.label} strength={0.35} max={10}>
+            <a
+              href={s.href}
+              className={styles.icon}
+              aria-label={s.label}
+              target={s.href.startsWith("http") ? "_blank" : undefined}
+              rel={
+                s.href.startsWith("http") ? "noopener noreferrer" : undefined
+              }
+            >
+              <Icon label={s.label} />
+            </a>
+          </Magnetic>
         ))}
       </nav>
     </footer>

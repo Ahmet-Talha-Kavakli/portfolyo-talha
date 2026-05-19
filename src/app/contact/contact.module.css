@@ -79,6 +79,11 @@ textarea.input {
   min-height: 3.5rem;
 }
 
+/* Magnetic sarmalayıcı grid öğesi olur → buton hizası korunsun. */
+.sendMag {
+  justify-self: start;
+}
+
 .send {
   justify-self: start;
   background: none;

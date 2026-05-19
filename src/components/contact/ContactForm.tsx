@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import SignalThread from "@/components/SignalThread";
+import Magnetic from "@/components/fx/Magnetic";
 import styles from "@/app/contact/contact.module.css";
 
 type Status = "idle" | "sending" | "sent" | "error";
@@ -124,14 +125,16 @@ export default function ContactForm() {
         />
       </div>
 
-      <button
-        type="submit"
-        className={`${styles.send} ${showSend ? styles.sendShown : ""}`}
-        disabled={!showSend || status === "sending"}
-        tabIndex={showSend ? 0 : -1}
-      >
-        {status === "sending" ? "Sending…" : "Send →"}
-      </button>
+      <Magnetic strength={0.3} max={12} className={styles.sendMag}>
+        <button
+          type="submit"
+          className={`${styles.send} ${showSend ? styles.sendShown : ""}`}
+          disabled={!showSend || status === "sending"}
+          tabIndex={showSend ? 0 : -1}
+        >
+          {status === "sending" ? "Sending…" : "Send →"}
+        </button>
+      </Magnetic>
 
       {status === "error" && (
         <p className={styles.error} role="alert">

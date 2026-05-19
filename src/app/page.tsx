@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ScrollFilm from "@/components/ScrollFilm";
 import SceneText from "@/components/SceneText";
+import Typewriter from "@/components/home/Typewriter";
 import IdentityLines from "@/components/home/IdentityLines";
 import Doors from "@/components/home/Doors";
 import MiniShowcase from "@/components/home/MiniShowcase";
@@ -23,8 +24,8 @@ export default function Home() {
   return (
     <main>
       <ScrollFilm framesDir="/frames/home" markers={HOME_MARKERS}>
-        <SceneText name="face" className={styles.dim}>
-          <span>scroll to begin</span>
+        <SceneText name="face" className={styles.introScene}>
+          <Typewriter />
         </SceneText>
         <SceneText name="brain" className={styles.huge}>
           <span>THINK</span>

@@ -4,6 +4,8 @@ import "lenis/dist/lenis.css";
 import "./globals.css";
 import LenisProvider from "@/components/LenisProvider";
 import Menu from "@/components/Menu";
+import Ambience from "@/components/fx/Ambience";
+import RouteTransition from "@/components/fx/RouteTransition";
 
 // Spec/hafıza: tüm site Sora. Variable font, --font-sora değişkenine bağlanır.
 const sora = Sora({
@@ -29,6 +31,8 @@ export default function RootLayout({
         <LenisProvider>
           <Menu />
           {children}
+          <Ambience />
+          <RouteTransition />
         </LenisProvider>
       </body>
     </html>

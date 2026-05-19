@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import ScrollFilm from "@/components/ScrollFilm";
 import SceneText from "@/components/SceneText";
 import SkillLines from "@/components/about/SkillLines";
+import Reveal from "@/components/fx/Reveal";
 import Footer from "@/components/Footer";
 import { ABOUT_MARKERS } from "@/lib/markers";
 import { site } from "@content";
@@ -51,7 +52,9 @@ export default function AboutPage() {
         <section className={styles.grid}>
           <div className={styles.bio}>
             {site.about.map((para, i) => (
-              <p key={i}>{para.replace(/^\[placeholder\]\s*/, "")}</p>
+              <Reveal as="p" key={i} delay={i * 0.08}>
+                {para.replace(/^\[placeholder\]\s*/, "")}
+              </Reveal>
             ))}
           </div>
           <SkillLines />

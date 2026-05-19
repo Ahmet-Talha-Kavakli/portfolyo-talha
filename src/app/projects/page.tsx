@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import ScrollFilm from "@/components/ScrollFilm";
 import SceneText from "@/components/SceneText";
 import ProjectStrip from "@/components/projects/ProjectStrip";
+import Reveal from "@/components/fx/Reveal";
 import Footer from "@/components/Footer";
 import { PROJECTS_MARKERS } from "@/lib/markers";
 import { site } from "@content";
@@ -35,8 +36,10 @@ export default function ProjectsPage() {
       <div className={styles.after}>
         <h1 className="sr-only">Projects — selected work by {site.name}</h1>
         <section className={styles.strips}>
-          {site.projects.map((p) => (
-            <ProjectStrip key={p.slug} project={p} />
+          {site.projects.map((p, i) => (
+            <Reveal key={p.slug} delay={i * 0.1}>
+              <ProjectStrip project={p} />
+            </Reveal>
           ))}
         </section>
         <Footer />

@@ -1,5 +1,77 @@
 /* Home — sahne yerleşim/tipografi + film sonrası içerik. */
 
+/* --- İlk sahne: daktilo karşılama (karanlık silüet üstünde) --- */
+.introScene {
+  padding: 0 8vw;
+}
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.4rem, 4vh, 2.6rem);
+}
+.welcomeLine {
+  display: inline-flex;
+  align-items: baseline;
+  max-width: 22ch;
+  font-size: clamp(1.5rem, 4.6vw, 3.4rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  color: #fff;
+  text-shadow:
+    0 0 10px rgba(5, 8, 16, 0.92),
+    0 2px 30px rgba(5, 8, 16, 0.7);
+}
+/* Sinyal renginde ince daktilo imleci — yazarken yanıp söner. */
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 0.12em;
+  transform: translateY(0.12em);
+  background: var(--signal);
+  box-shadow: 0 0 10px rgba(47, 107, 255, 0.8);
+  animation: caretBlink 1s steps(1) infinite;
+}
+.caretDone {
+  animation: none;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-cine);
+}
+@keyframes caretBlink {
+  50% {
+    opacity: 0;
+  }
+}
+.scrollHint {
+  font-size: clamp(0.7rem, 1.3vw, 0.95rem);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.8s var(--ease-cine),
+    transform 0.8s var(--ease-cine);
+  text-shadow:
+    0 0 6px rgba(5, 8, 16, 0.9),
+    0 2px 18px rgba(5, 8, 16, 0.65);
+}
+.scrollHintIn {
+  opacity: 0.6;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .caret {
+    animation: none;
+    opacity: 0;
+  }
+  .scrollHint {
+    transition: none;
+  }
+}
+
 /* --- Sahne metinleri (SceneText className override) --- */
 .dim {
   align-items: end;

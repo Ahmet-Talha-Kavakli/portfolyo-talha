@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site } from "@content";
+import Parallax from "@/components/fx/Parallax";
 import styles from "@/app/home.module.css";
 
 /** Mini vitrin — en güçlü TEK proje (özet); tıklayınca /projects. */
@@ -11,13 +12,15 @@ export default function MiniShowcase() {
       <Link href="/projects" className={styles.showcaseLink} prefetch={false}>
         {/* Placeholder görsel — gerçek fal.ai/üretim görseli sonra
             content/site.ts'ten gelir (next/image değil: placeholder SVG). */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={p.cover}
-          alt={p.name}
-          className={styles.showcaseImg}
-          loading="lazy"
-        />
+        <Parallax amount={30}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={p.cover}
+            alt={p.name}
+            className={styles.showcaseImg}
+            loading="lazy"
+          />
+        </Parallax>
         <div className={styles.showcaseMeta}>
           <span className={styles.showcaseName}>{p.name}</span>
           <span className={styles.showcaseGo}>view projects</span>
